@@ -1,6 +1,6 @@
-# Contribution to the Credit Default Prediction Project
+# Contribution to the Vancouver Housing Dashboard Project
 
-This document provides instructions on how to submit a change request for our Credit Default Prediction project. We accept contributions and error corrections, irrespective of the technical expertise, project experience, nation, and background of the potential contributor, and we thank you for your effort in improving the project.
+This document provides instructions on how to submit a change request for our Vancouver Housing Dashboard project. We accept contributions and error corrections, irrespective of the technical expertise, project experience, nation, and background of the potential contributor, and we thank you for your effort in improving the project.
 
 ## Set Up Dependencies
 
@@ -29,3 +29,13 @@ Please be aware that a Contributor Code of Conduct is included with the release 
 ## Attribution
 
 This document was adapted from the [Altair contribution file](https://github.com/altair-viz/altair/blob/master/CONTRIBUTING.md).
+
+Please note that the `bmigraph` project is released with a
+Code of Conduct. By contributing to this project you agree to abide by its terms.
+
+Any violations that occur can be reported to:
+
+- Ziyi Chen at zchen156@student.ubc.ca
+- HanChen Wang at hcwang24@student.ubc.ca
+- Ke Wang at kewang5@student.ubc.ca
+- Morris Zhao at morrisz@student.ubc.ca
