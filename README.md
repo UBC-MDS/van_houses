@@ -1,8 +1,8 @@
-# Vancouver Housing Prices Visulization
+# Vancouver Housing Market Dashboard
 - Authors: Morris Zhao, Hanchen Wang, Ziyi Chen, Ken Wang
 
 ## Summary
-Our R-based dashboard application gives an easy way for people to explore housing prices in Vancouver city. More details can be found [here](reports/proposal.md)
+Our R-based dashboard application gives an easy way for people to explore housing prices in Vancouver city. More details can be found [here](reports/proposal.md).
 
 ## Visulizations
 - **Map**: An interactive map that allows user to choose a certain area. Based on the area selection all other components will update in realtime.
