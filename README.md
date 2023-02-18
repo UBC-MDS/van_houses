@@ -19,6 +19,14 @@ Ideally all the interactive features in these 4 visualizations are linked togeth
 
 On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="docs/images/app_sketch.jpg"/>
 
-# License
+## Code of Conduct
+
+Please note that the van_houses project is released with a [Contributor Code of Conduct](https://github.com/UBC-MDS/van_houses/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
+## Contributing
+
+Interested in contributing? Check out the contributing guidelines. Please note that this project is released with a Code of Conduct. By contributing to this project, you agree to abide by its terms.
+
+## License
 
 Licensed under the terms of the MIT license.
