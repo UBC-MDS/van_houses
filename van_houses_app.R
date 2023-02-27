@@ -4,13 +4,17 @@ library(thematic)
 library(plotly)
 library(tidyverse)
 
-# Download the data from Vancouver Open Portal
+# Optimizing workflow
+options(shiny.autoreload = TRUE)
+
+# Uncomment the following to download the data from Vancouver Open Data Portal
 # url <- "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/property-tax-report/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B"
 # house_data <- read_delim(url, delim = ";", show_col_types = FALSE)
 # dir.create("data-raw")
 # write_csv(house_data, "data-raw/van_house_data.csv")
 
-house_data <- read_csv("data-raw/van_house_data.csv", show_col_types = FALSE)
+# Load previously annotated data from Vancouver Open Portal
+load(file='data-raw/house_data.rda')
 
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
@@ -23,7 +27,7 @@ ui <- fluidPage(
           div(
             style = "height:100px;",
             "Stat 1: # of Houses",
-            length(na.omit(house_data$CURRENT_LAND_VALUE))
+            length(na.omit(house_data$current_land_value))
           )
         ),
         column(
@@ -32,7 +36,7 @@ ui <- fluidPage(
           div(
             style = "height:100px;",
             "Stat 2: Avg Price",
-            paste0("$", round(mean(na.omit(house_data$CURRENT_LAND_VALUE)), 2))
+            paste0("$", round(mean(na.omit(house_data$current_land_value)), 2))
           )
         )
       ),
@@ -42,7 +46,7 @@ ui <- fluidPage(
           div(
             style = "height:100px;",
             "Stat 3: Avg Year House Built",
-            round(mean(na.omit(house_data$YEAR_BUILT)), 0)
+            round(mean(na.omit(house_data$year_built)), 0)
           )
         ),
         column(
@@ -51,7 +55,7 @@ ui <- fluidPage(
           div(
             style = "height:100px;",
             "Stat 4: Avg Year House Improved",
-            round(mean(na.omit(house_data$BIG_IMPROVEMENT_YEAR)), 0)
+            round(mean(na.omit(house_data$big_improvement_year)), 0)
           )
         )
       ),
@@ -108,14 +112,14 @@ server <- function(input, output, session) {
   # plot1: histogram_land_value
   output$histogram_land_value <- renderPlot({
     plot1 <- house_data |>
-      filter(CURRENT_LAND_VALUE >= input$priceslider[1],
-             CURRENT_LAND_VALUE <= input$priceslider[2],
-             YEAR_BUILT >= input$yearslider[1],
-             YEAR_BUILT <= input$yearslider[2])
+      filter(current_land_value >= input$priceslider[1],
+             current_land_value <= input$priceslider[2],
+             year_built >= input$yearslider[1],
+             year_built <= input$yearslider[2])
     
-    hist(plot1$CURRENT_LAND_VALUE,
+    hist(plot1$current_land_value,
          col = "darkgray", border = "white",
-         xlab = "House Price",
+         xlab = "House Price ($)",
          main = "House Price Distribtuion"
     )
   })
