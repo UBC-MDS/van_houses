@@ -5,10 +5,7 @@ library(plotly)
 library(tidyverse)
 
 # Download the data from Vancouver Open Portal
-# url <- "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/property-tax-report/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B"
-# house_data <- read_delim(url, delim = ";", show_col_types = FALSE)
-# dir.create("data-raw")
-# write_csv(house_data, "data-raw/van_house_data.csv")
+load(file='data-raw/house_data.rda')
 
 house_data <- read_csv("data-raw/van_house_data.csv", show_col_types = FALSE)
 

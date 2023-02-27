@@ -12,4 +12,4 @@ house_data <- munge_tax()
 save(house_data, file = "data-raw/house_data.rda", compress = "bzip2")
 
 # Use the following line in the app.R to load the house_data variable
-# load(file='data-raw/tax_2023.rda')
+# load(file='data-raw/house_data.rda')
