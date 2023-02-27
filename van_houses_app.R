@@ -1,6 +1,16 @@
 library(shiny)
 library(bslib)
 library(thematic)
+library(plotly)
+library(tidyverse)
+
+# Download the data from Vancouver Open Portal
+# url <- "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/property-tax-report/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B"
+# house_data <- read_delim(url, delim = ";", show_col_types = FALSE)
+# dir.create("data-raw")
+# write_csv(house_data, "data-raw/van_house_data.csv")
+
+house_data <- read_csv("data-raw/van_house_data.csv", show_col_types = FALSE)
 
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
@@ -8,11 +18,43 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       fluidRow(
-        column(width = 5, "Stat 1: # of Houses"),
-        column(width = 5, "Stat 2: Avg Price")),
+        column(
+          width = 5,
+          div(
+            style = "height:100px;",
+            "Stat 1: # of Houses",
+            length(na.omit(house_data$CURRENT_LAND_VALUE))
+          )
+        ),
+        column(
+          width = 5,
+          offset = 2,
+          div(
+            style = "height:100px;",
+            "Stat 2: Avg Price",
+            paste0("$", round(mean(na.omit(house_data$CURRENT_LAND_VALUE)), 2))
+          )
+        )
+      ),
       fluidRow(
-        column(width = 5, "Stat 3: Avg House Area"),
-        column(width = 5, "Stat 4: Avg Year Built")),
+        column(
+          width = 5,
+          div(
+            style = "height:100px;",
+            "Stat 3: Avg Year House Built",
+            round(mean(na.omit(house_data$YEAR_BUILT)), 0)
+          )
+        ),
+        column(
+          width = 5,
+          offset = 2,
+          div(
+            style = "height:100px;",
+            "Stat 4: Avg Year House Improved",
+            round(mean(na.omit(house_data$BIG_IMPROVEMENT_YEAR)), 0)
+          )
+        )
+      ),
       # checkboxInput(
       #   inputId = "communityCheckbox",
       #   label = "Community", FALSE
@@ -31,35 +73,50 @@ ui <- fluidPage(
       # ),
       sliderInput(
         inputId = "priceslider",
-        label = "Price range($1,000)",
-        min = 0,
-        max = 10,
-        value = 5
+        label = "Price range",
+        min = 300000,
+        max = 1000000,
+        value = range(300000, 1000000),
+        step = 1000,
+        sep = ''
       ),
       sliderInput(
         inputId = "yearslider",
         label = "Year built",
-        min = 0,
-        max = 10,
-        value = 5
+        min = 1975,
+        max = 2016,
+        value = range(1975, 2016),
+        step = 1,
+        sep = ''
       ),
     ),
-    mainPanel(plotOutput(outputId = "distplot"))
+    mainPanel(
+      fluidRow(
+        column(width = 5, plotOutput(outputId = "histogram_land_value")),
+        column(width = 5, "Second plot")
+      ),
+      fluidRow(
+        column(width = 5, "Third plot"),
+        column(width = 5, "Fourth plot")
+      ),
+    )
   )
 )
 
 server <- function(input, output, session) {
   thematic::thematic_shiny()
-  output$distplot <- renderPlot({
-    # generate bins
-    x <- faithful[, 2]
-    bins <- seq(min(x), max(x), length.out = input$priceslider + 1)
-
-    # draw the histogram with the specified number of bins
-    hist(x,
-      breaks = bins, col = "darkgray", border = "white",
-      xlab = "Waiting time to next eruption (in mins)",
-      main = "Histogram of waiting times"
+  # plot1: histogram_land_value
+  output$histogram_land_value <- renderPlot({
+    plot1 <- house_data |>
+      filter(CURRENT_LAND_VALUE >= input$priceslider[1],
+             CURRENT_LAND_VALUE <= input$priceslider[2],
+             YEAR_BUILT >= input$yearslider[1],
+             YEAR_BUILT <= input$yearslider[2])
+    
+    hist(plot1$CURRENT_LAND_VALUE,
+         col = "darkgray", border = "white",
+         xlab = "House Price",
+         main = "House Price Distribtuion"
     )
   })
 }
