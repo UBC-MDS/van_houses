@@ -6,8 +6,10 @@ source("data-raw/munge_tax.R")
 # house_data <- read_delim(url, delim = ";", show_col_types = FALSE)
 # dir.create("data-raw")
 # write_csv(house_data, "data-raw/van_house_data.csv")
-tax_2023 <- munge_tax()
+house_data <- munge_tax()
 
-# write_csv(tax_2023, "data-raw/tax_2023.csv")
-save(tax_2023, file = "data-raw/tax_2023.rda", compress = "bzip2")
+# write_csv(tax_2023, "data-raw/house_data.csv")
+save(house_data, file = "data-raw/house_data.rda", compress = "bzip2")
 
+# Use the following line in the app.R to load the house_data variable
+# load(file='data-raw/tax_2023.rda')
