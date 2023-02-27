@@ -3,6 +3,7 @@ library(bslib)
 library(thematic)
 library(plotly)
 library(tidyverse)
+library(shinyWidgets)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -16,11 +17,14 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file='data-raw/house_data.rda')
 
+# Creating ui
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
   titlePanel("Vancouver Housing Dashboard"),
   sidebarLayout(
     sidebarPanel(
+      # Create four stats summary to give an overall view
+      # number of Houses
       fluidRow(
         column(
           width = 5,
@@ -30,6 +34,7 @@ ui <- fluidPage(
             length(na.omit(house_data$current_land_value))
           )
         ),
+        # average house price
         column(
           width = 5,
           offset = 2,
@@ -40,6 +45,7 @@ ui <- fluidPage(
           )
         )
       ),
+      # average year built
       fluidRow(
         column(
           width = 5,
@@ -49,6 +55,7 @@ ui <- fluidPage(
             round(mean(na.omit(house_data$year_built)), 0)
           )
         ),
+        # average year house improved
         column(
           width = 5,
           offset = 2,
@@ -75,6 +82,19 @@ ui <- fluidPage(
       #   ),
       #   selected = "type1"
       # ),
+      # creating picker for report year
+      pickerInput(
+        inputId = "reportyear", 
+        label = "Select Report Year", 
+        choices = unique(house_data$report_year), 
+        options = pickerOptions(
+          actionsBox = TRUE, 
+          selected = unique(house_data$report_year),
+          size = 10,
+          selectedTextFormat = "count > 1",
+        )
+      ),
+      # Create slider for house price
       sliderInput(
         inputId = "priceslider",
         label = "Price range",
@@ -84,6 +104,7 @@ ui <- fluidPage(
         step = 1000,
         sep = ''
       ),
+      # create slider for year built
       sliderInput(
         inputId = "yearslider",
         label = "Year built",
@@ -92,12 +113,13 @@ ui <- fluidPage(
         value = range(1975, 2016),
         step = 1,
         sep = ''
-      ),
+      )
     ),
+    # four plot outputs
     mainPanel(
       fluidRow(
         column(width = 5, plotOutput(outputId = "histogram_land_value")),
-        column(width = 5, "Second plot")
+        column(width = 5, plotOutput(outputId = "Second plot"))
       ),
       fluidRow(
         column(width = 5, "Third plot"),
@@ -107,6 +129,7 @@ ui <- fluidPage(
   )
 )
 
+# Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
   # plot1: histogram_land_value
@@ -115,7 +138,8 @@ server <- function(input, output, session) {
       filter(current_land_value >= input$priceslider[1],
              current_land_value <= input$priceslider[2],
              year_built >= input$yearslider[1],
-             year_built <= input$yearslider[2])
+             year_built <= input$yearslider[2],
+             report_year %in% input$reportyear)
     
     hist(plot1$current_land_value,
          col = "darkgray", border = "white",
