@@ -132,14 +132,23 @@ ui <- fluidPage(
 # Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
+  
+  # filtered data set
+  filtered_data <- reactive({ 
+    house_data |>
+      dplyr::filter(
+        current_land_value >= input$priceslider[1],
+        current_land_value <= input$priceslider[2],
+        year_built >= input$yearslider[1],
+        year_built <= input$yearslider[2],
+        report_year %in% input$reportyear
+      )
+  }) 
+  
   # plot1: histogram_land_value
   output$histogram_land_value <- renderPlot({
-    plot1 <- house_data |>
-      filter(current_land_value >= input$priceslider[1],
-             current_land_value <= input$priceslider[2],
-             year_built >= input$yearslider[1],
-             year_built <= input$yearslider[2],
-             report_year %in% input$reportyear)
+    
+    plot1 <- filtered_data()
     
     hist(plot1$current_land_value,
          col = "darkgray", border = "white",
