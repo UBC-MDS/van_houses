@@ -2,10 +2,10 @@ library(tidyverse)
 library(readr)
 library(ggmap)
 
-munge_tax<- function(){
+munge_tax<- function(data_file){
    
   print("Loading data--------------------------", quote = FALSE)
-  raw <- read_csv("data-raw/van_house_data.csv", show_col_types = FALSE)
+  raw <- read_csv(data_file, show_col_types = FALSE)
   
   print("Cleaning up---------------------------", quote = FALSE)
   tax <- raw %>%

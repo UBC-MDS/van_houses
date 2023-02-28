@@ -8,11 +8,10 @@ library(leaflet)
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
 
-# Uncomment the following to download the data from Vancouver Open Data Portal
-# url <- "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/property-tax-report/exports/csv?lang=en&timezone=America%2FLos_Angeles&use_labels=true&delimiter=%3B"
-# house_data <- read_delim(url, delim = ";", show_col_types = FALSE)
-# dir.create("data-raw")
-# write_csv(house_data, "data-raw/van_house_data.csv")
+# Uncomment the following if need to download data from Vancouver Open Data Portal
+# Warning! This can take a while to download and tidy (~300Mb)
+# source("data-raw/download.R")
+# download()
 
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
