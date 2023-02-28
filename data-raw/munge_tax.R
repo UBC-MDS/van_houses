@@ -1,3 +1,7 @@
+# This script is adapted from the GitHub Repo:
+# https://github.com/UBC-MDS/taxyvr
+# by Hayley Boyce and Jordan Bourak in the UBC MDS Program
+
 library(tidyverse)
 library(readr)
 library(ggmap)
