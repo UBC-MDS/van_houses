@@ -3,6 +3,7 @@ library(bslib)
 library(thematic)
 library(plotly)
 library(tidyverse)
+library(leaflet)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -16,11 +17,14 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file='data-raw/house_data.rda')
 
+# Creating ui
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
   titlePanel("Vancouver Housing Dashboard"),
   sidebarLayout(
     sidebarPanel(
+      # Create four stats summary to give an overall view
+      # number of Houses
       fluidRow(
         column(
           width = 5,
@@ -30,6 +34,7 @@ ui <- fluidPage(
             length(na.omit(house_data$current_land_value))
           )
         ),
+        # average house price
         column(
           width = 5,
           offset = 2,
@@ -40,6 +45,7 @@ ui <- fluidPage(
           )
         )
       ),
+      # average year built
       fluidRow(
         column(
           width = 5,
@@ -49,6 +55,7 @@ ui <- fluidPage(
             round(mean(na.omit(house_data$year_built)), 0)
           )
         ),
+        # average year house improved
         column(
           width = 5,
           offset = 2,
@@ -59,22 +66,22 @@ ui <- fluidPage(
           )
         )
       ),
-      # checkboxInput(
-      #   inputId = "communityCheckbox",
-      #   label = "Community", FALSE
-      # ),
-      # verbatimTextOutput("value"),
-      # selectInput(
-      #   inputId = "housetypeDropdown",
-      #   label = "House type",
-      #   choices == c(
-      #     "Type 1" = "type1",
-      #     "Type 2" = "type2",
-      #     "Type 3" = "type3",
-      #     "Type 4" = "type4",
-      #   ),
-      #   selected = "type1"
-      # ),
+
+      # creating radio buttons for report year
+      radioButtons(
+        inputId = "reportyear", 
+        label = "Select Report Year", 
+        choices = unique(house_data$report_year)
+      ),
+      
+      # creating picker for community
+      selectInput(
+        inputId = "community", 
+        label = "Select Community", 
+        choices = unique(house_data$zoning_classification)
+      ),
+      
+      # Create slider for house price
       sliderInput(
         inputId = "priceslider",
         label = "Price range",
@@ -84,6 +91,8 @@ ui <- fluidPage(
         step = 1000,
         sep = ''
       ),
+      
+      # create slider for year built
       sliderInput(
         inputId = "yearslider",
         label = "Year built",
@@ -92,12 +101,13 @@ ui <- fluidPage(
         value = range(1975, 2016),
         step = 1,
         sep = ''
-      ),
+      )
     ),
+    # four plot outputs
     mainPanel(
       fluidRow(
         column(width = 5, plotOutput(outputId = "histogram_land_value")),
-        column(width = 5, "Second plot")
+        column(width = 5, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
         column(width = 5, "Third plot"),
@@ -107,21 +117,56 @@ ui <- fluidPage(
   )
 )
 
+# Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
+  
+  # filtered data set
+  filtered_data <- reactive({ 
+    house_data |>
+      dplyr::filter(
+        current_land_value >= input$priceslider[1],
+        current_land_value <= input$priceslider[2],
+        year_built >= input$yearslider[1],
+        year_built <= input$yearslider[2],
+        report_year == input$reportyear,
+        zoning_classification == input$community
+      )
+  }) 
+  
   # plot1: histogram_land_value
   output$histogram_land_value <- renderPlot({
-    plot1 <- house_data |>
-      filter(current_land_value >= input$priceslider[1],
-             current_land_value <= input$priceslider[2],
-             year_built >= input$yearslider[1],
-             year_built <= input$yearslider[2])
+    
+    plot1 <- filtered_data()
     
     hist(plot1$current_land_value,
          col = "darkgray", border = "white",
          xlab = "House Price ($)",
          main = "House Price Distribtuion"
     )
+  })
+  
+  # plot 2: map
+  output$vancouver_map <- leaflet::renderLeaflet({
+    filtered_data() |>
+      dplyr::group_by(`Geo Local Area`) |>
+      dplyr::summarize(n = n(), 
+                       lat = mean(latitude),
+                       long = mean(longitude)) |>
+      leaflet::leaflet() |>
+      leaflet::setView(lng = -123.12402, lat = 49.2474, zoom = 11.5) |>
+      leaflet::addTiles() |>
+      leaflet::addCircleMarkers(
+        lat = ~lat,
+        lng = ~long,
+        radius = ~n/10000,
+        # popup = paste(
+        #   filtered_data()$n,
+        #   "bird/s in",
+        #   filtered_data()$`Geo Local Area`
+        # ),
+        options = popupOptions(closeButton = FALSE)
+      )
   })
 }
 
