@@ -15,12 +15,12 @@ options(shiny.autoreload = TRUE)
 # write_csv(house_data, "data-raw/van_house_data.csv")
 
 # Load previously annotated data from Vancouver Open Portal
-load(file='data-raw/house_data.rda')
+load(file = "data-raw/house_data.rda")
 
 # Creating ui
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
-  titlePanel("Vancouver Housing Dashboard"),
+  titlePanel(paste("Vancouver Housing Dashboard", house_data$report_year[[1]])), # Here can we add so it updates the year and community we select.
   sidebarLayout(
     sidebarPanel(
       # Create four stats summary to give an overall view
@@ -69,18 +69,21 @@ ui <- fluidPage(
 
       # creating radio buttons for report year
       radioButtons(
-        inputId = "reportyear", 
-        label = "Select Report Year", 
+        inputId = "reportyear",
+        label = "Select Report Year",
+        selected = "2023",
         choices = unique(house_data$report_year)
       ),
-      
+
       # creating picker for community
       selectInput(
-        inputId = "community", 
-        label = "Select Community", 
-        choices = unique(house_data$zoning_classification)
+        inputId = "community",
+        label = "Select Community (multiple selection allowed):",
+        selected = c("Shaughnessy", "Kerrisdale", "Downtown"),
+        multiple = TRUE,
+        choices = unique(house_data$`Geo Local Area`)
       ),
-      
+
       # Create slider for house price
       sliderInput(
         inputId = "priceslider",
@@ -89,9 +92,9 @@ ui <- fluidPage(
         max = 1000000,
         value = range(300000, 1000000),
         step = 1000,
-        sep = ''
+        sep = ""
       ),
-      
+
       # create slider for year built
       sliderInput(
         inputId = "yearslider",
@@ -100,18 +103,18 @@ ui <- fluidPage(
         max = 2016,
         value = range(1975, 2016),
         step = 1,
-        sep = ''
+        sep = ""
       )
     ),
     # four plot outputs
     mainPanel(
       fluidRow(
         column(width = 5, plotOutput(outputId = "histogram_land_value")),
-        column(width = 5, leaflet::leafletOutput(outputId = "vancouver_map"))
+        column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
         column(width = 5, "Third plot"),
-        column(width = 5, "Fourth plot")
+        column(width = 6, "Fourth plot")
       ),
     )
   )
@@ -120,9 +123,9 @@ ui <- fluidPage(
 # Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
-  
+
   # filtered data set
-  filtered_data <- reactive({ 
+  filtered_data <- reactive({
     house_data |>
       dplyr::filter(
         current_land_value >= input$priceslider[1],
@@ -130,41 +133,51 @@ server <- function(input, output, session) {
         year_built >= input$yearslider[1],
         year_built <= input$yearslider[2],
         report_year == input$reportyear,
-        zoning_classification == input$community
+        `Geo Local Area` %in% input$community
       )
-  }) 
-  
+  })
+
   # plot1: histogram_land_value
   output$histogram_land_value <- renderPlot({
-    
     plot1 <- filtered_data()
-    
+
     hist(plot1$current_land_value,
-         col = "darkgray", border = "white",
-         xlab = "House Price ($)",
-         main = "House Price Distribtuion"
+      col = "darkgray", border = "white",
+      xlab = "House Price ($)",
+      ylab = "Number of Houses",
+      main = "House Price Distribtuion",
     )
   })
-  
-  # plot 2: map
-  output$vancouver_map <- leaflet::renderLeaflet({
+
+  # plot2: map of Vancouver showing selected communities
+  map_filtered_data <- reactive({
     filtered_data() |>
       dplyr::group_by(`Geo Local Area`) |>
-      dplyr::summarize(n = n(), 
-                       lat = mean(latitude),
-                       long = mean(longitude)) |>
+      dplyr::summarize(
+        n = n(),
+        total = sum(n),
+        mean_price = round(mean(current_land_value), 2),
+        lat = mean(latitude),
+        long = mean(longitude)
+      )
+  })
+
+  output$vancouver_map <- leaflet::renderLeaflet({
+    map_filtered_data() |>
       leaflet::leaflet() |>
       leaflet::setView(lng = -123.12402, lat = 49.2474, zoom = 11.5) |>
       leaflet::addTiles() |>
       leaflet::addCircleMarkers(
         lat = ~lat,
         lng = ~long,
-        radius = ~n/10000,
-        # popup = paste(
-        #   filtered_data()$n,
-        #   "bird/s in",
-        #   filtered_data()$`Geo Local Area`
-        # ),
+        radius = ~ n * 20 / total,
+        popup = paste0(
+          map_filtered_data()$n,
+          " houses in ",
+          map_filtered_data()$`Geo Local Area`,
+          " averaging $",
+          map_filtered_data()$mean_price
+        ),
         options = popupOptions(closeButton = FALSE)
       )
   })
