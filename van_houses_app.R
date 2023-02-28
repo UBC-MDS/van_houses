@@ -67,26 +67,19 @@ ui <- fluidPage(
           )
         )
       ),
-      # checkboxInput(
-      #   inputId = "communityCheckbox",
-      #   label = "Community", FALSE
-      # ),
-      # verbatimTextOutput("value"),
-      # selectInput(
-      #   inputId = "housetypeDropdown",
-      #   label = "House type",
-      #   choices == c(
-      #     "Type 1" = "type1",
-      #     "Type 2" = "type2",
-      #     "Type 3" = "type3",
-      #     "Type 4" = "type4",
-      #   ),
-      #   selected = "type1"
-      # ),
-      # creating picker for report year
-      pickerInput(
+
+      # creating radio buttons for report year
+      radioButtons(
         inputId = "reportyear", 
         label = "Select Report Year", 
+        choices = unique(house_data$report_year),
+        selected = 2023
+      ),
+      
+      # creating picker for community
+      pickerInput(
+        inputId = "community", 
+        label = "Select Community", 
         choices = unique(house_data$report_year), 
         options = pickerOptions(
           actionsBox = TRUE, 
