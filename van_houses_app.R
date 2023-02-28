@@ -149,35 +149,21 @@ server <- function(input, output, session) {
   })
 
   # plot2: map of Vancouver showing selected communities
-  map_filtered_data <- reactive({
-    filtered_data() |>
-      dplyr::group_by(`Geo Local Area`) |>
-      dplyr::summarize(
-        n = n(),
-        total = sum(n),
-        mean_price = round(mean(current_land_value), 2),
-        lat = mean(latitude),
-        long = mean(longitude)
-      )
-  })
-
   output$vancouver_map <- leaflet::renderLeaflet({
-    map_filtered_data() |>
+    filtered_data() |>
       leaflet::leaflet() |>
       leaflet::setView(lng = -123.12402, lat = 49.2474, zoom = 11.5) |>
       leaflet::addTiles() |>
-      leaflet::addCircleMarkers(
-        lat = ~lat,
-        lng = ~long,
-        radius = ~ n * 20 / total,
+      leaflet::addMarkers(
+        lat = ~latitude,
+        lng = ~longitude,
         popup = paste0(
-          map_filtered_data()$n,
-          " houses in ",
-          map_filtered_data()$`Geo Local Area`,
-          " averaging $",
-          map_filtered_data()$mean_price
+          filtered_data()$full_address,
+          " $",
+          filtered_data()$current_land_value
         ),
-        options = popupOptions(closeButton = FALSE)
+        options = popupOptions(closeButton = FALSE),
+        clusterOptions = markerClusterOptions()
       )
   })
 }
