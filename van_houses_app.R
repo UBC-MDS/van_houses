@@ -4,6 +4,7 @@ library(thematic)
 library(plotly)
 library(tidyverse)
 library(shinyWidgets)
+library(leaflet)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -119,7 +120,7 @@ ui <- fluidPage(
     mainPanel(
       fluidRow(
         column(width = 5, plotOutput(outputId = "histogram_land_value")),
-        column(width = 5, plotOutput(outputId = "Second plot"))
+        column(width = 5, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
         column(width = 5, "Third plot"),
@@ -155,6 +156,29 @@ server <- function(input, output, session) {
          xlab = "House Price ($)",
          main = "House Price Distribtuion"
     )
+  })
+  
+  # plot 2: map
+  output$vancouver_map <- leaflet::renderLeaflet({
+    filtered_data() |>
+      dplyr::group_by(`Geo Local Area`) |>
+      dplyr::summarize(n = n(), 
+                       lat = mean(latitude),
+                       long = mean(longitude)) |>
+      leaflet::leaflet() |>
+      leaflet::setView(lng = -123.12402, lat = 49.2474, zoom = 11.5) |>
+      leaflet::addTiles() |>
+      leaflet::addCircleMarkers(
+        lat = ~lat,
+        lng = ~long,
+        radius = ~n/10000,
+        # popup = paste(
+        #   filtered_data()$n,
+        #   "bird/s in",
+        #   filtered_data()$`Geo Local Area`
+        # ),
+        options = popupOptions(closeButton = FALSE)
+      )
   })
 }
 
