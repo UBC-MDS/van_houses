@@ -3,7 +3,6 @@ library(bslib)
 library(thematic)
 library(plotly)
 library(tidyverse)
-library(shinyWidgets)
 library(leaflet)
 
 # Optimizing workflow
@@ -72,22 +71,16 @@ ui <- fluidPage(
       radioButtons(
         inputId = "reportyear", 
         label = "Select Report Year", 
-        choices = unique(house_data$report_year),
-        selected = 2023
+        choices = unique(house_data$report_year)
       ),
       
       # creating picker for community
-      pickerInput(
+      selectInput(
         inputId = "community", 
         label = "Select Community", 
-        choices = unique(house_data$report_year), 
-        options = pickerOptions(
-          actionsBox = TRUE, 
-          selected = unique(house_data$report_year),
-          size = 10,
-          selectedTextFormat = "count > 1",
-        )
+        choices = unique(house_data$zoning_classification)
       ),
+      
       # Create slider for house price
       sliderInput(
         inputId = "priceslider",
@@ -98,6 +91,7 @@ ui <- fluidPage(
         step = 1000,
         sep = ''
       ),
+      
       # create slider for year built
       sliderInput(
         inputId = "yearslider",
@@ -135,7 +129,8 @@ server <- function(input, output, session) {
         current_land_value <= input$priceslider[2],
         year_built >= input$yearslider[1],
         year_built <= input$yearslider[2],
-        report_year %in% input$reportyear
+        report_year == input$reportyear,
+        zoning_classification == input$community
       )
   }) 
   
