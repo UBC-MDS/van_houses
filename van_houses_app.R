@@ -29,7 +29,7 @@ ui <- fluidPage(
           width = 5,
           div(
             style = "height:100px;",
-            "Stat 1: # of Houses",
+            "Stat 1: Number of Houses",
             textOutput(outputId = "num_houses")
           )
         ),
@@ -39,7 +39,7 @@ ui <- fluidPage(
           offset = 2,
           div(
             style = "height:100px;",
-            "Stat 2: Avg Price",
+            "Stat 2: Average House Price",
             textOutput(outputId = "avg_price")
           )
         )
@@ -50,7 +50,7 @@ ui <- fluidPage(
           width = 5,
           div(
             style = "height:100px;",
-            "Stat 3: Avg Year House Built",
+            "Stat 3: Average Year of House Built",
             textOutput(outputId = "avg_year_built")
           )
         ),
@@ -60,12 +60,12 @@ ui <- fluidPage(
           offset = 2,
           div(
             style = "height:100px;",
-            "Stat 4: Avg Year House Improved",
+            "Stat 4: Average Year of House Improvement",
             textOutput(outputId = "avg_year_improve")
           )
         )
       ),
-      
+
       # creating radio buttons for report year
       radioButtons(
         inputId = "reportyear",
@@ -103,13 +103,6 @@ ui <- fluidPage(
         selected = c("Shaughnessy", "Kerrisdale", "Downtown"),
         choices = sort(unique(house_data$`Geo Local Area`))
       ),
-      
-      # adding a download button for downloading csv file
-      downloadButton(
-        outputId = "download_van_houses", 
-        label = "Save This Page"
-      )
-      
     ),
     # four plot outputs
     mainPanel(
@@ -118,7 +111,14 @@ ui <- fluidPage(
         column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
-               column(width = 12, tableOutput(outputId = "table1"))
+        column(
+          width = 12, # adding a download button for downloading csv file
+          downloadButton(
+            outputId = "download_van_houses",
+            label = "Download Full Data"
+          ),
+          DT::dataTableOutput(outputId = "table1"),
+        )
       ),
     )
   )
@@ -193,29 +193,29 @@ server <- function(input, output, session) {
         clusterOptions = markerClusterOptions()
       )
   })
-  
+
   # table 1: Selected housing data preview
-  output$table1 <- renderTable(
+  output$table1 <- DT::renderDataTable(
     filtered_data() |>
-      select("Geo Local Area",
-             full_address, 
-             current_land_value, 
-             current_improvement_value,
-             tax_assessment_year,
-             year_built) |>
-      rename("Area Name" = "Geo Local Area",
-             "full address" = full_address,
-             "current land value" = current_land_value,
-             "current improvement value" = current_improvement_value,
-             "annual tax assessment" = tax_assessment_year,
-             "year_built" = year_built)|>
-      head(10),
-    spacing = "s",
-    align = "c",
-    striped = TRUE
+      select(
+        "Geo Local Area",
+        full_address,
+        current_land_value,
+        current_improvement_value,
+        tax_assessment_year,
+        year_built
+      ) |>
+      rename(
+        "Area Name" = "Geo Local Area",
+        "Full address" = full_address,
+        "Current land value" = current_land_value,
+        "Current improvement value" = current_improvement_value,
+        "Annual tax assessment" = tax_assessment_year,
+        "Year built" = year_built
+      ),
   )
-  
-  # download button: downloading table 1 
+
+  # download button: downloading table 1
   output$download_van_houses <- downloadHandler(
     filename = function() {
       "van_houses.csv"
@@ -225,7 +225,8 @@ server <- function(input, output, session) {
       van_houses_df <- as.data.frame(filtered_data())
       # Write the data frame to a CSV file
       write.csv(van_houses_df, file, row.names = FALSE)
-    })
+    }
+  )
 }
 
 shinyApp(ui, server)
