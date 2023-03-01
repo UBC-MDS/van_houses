@@ -29,7 +29,7 @@ ui <- fluidPage(
           width = 5,
           div(
             style = "height:100px;",
-            "Stat 1: # of Houses",
+            "Stat 1: Number of Houses",
             textOutput(outputId = "num_houses")
           )
         ),
@@ -39,7 +39,7 @@ ui <- fluidPage(
           offset = 2,
           div(
             style = "height:100px;",
-            "Stat 2: Avg Price",
+            "Stat 2: Average House Price",
             textOutput(outputId = "avg_price")
           )
         )
@@ -50,7 +50,7 @@ ui <- fluidPage(
           width = 5,
           div(
             style = "height:100px;",
-            "Stat 3: Avg Year House Built",
+            "Stat 3: Average Year of House Built",
             textOutput(outputId = "avg_year_built")
           )
         ),
@@ -60,7 +60,7 @@ ui <- fluidPage(
           offset = 2,
           div(
             style = "height:100px;",
-            "Stat 4: Avg Year House Improved",
+            "Stat 4: Average Year of House Improvement",
             textOutput(outputId = "avg_year_improve")
           )
         )
