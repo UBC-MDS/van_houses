@@ -2,9 +2,38 @@
 
 -   Authors: Morris Zhao, Hanchen Wang, Ziyi Chen, Ken Wang
 
+## Welcome
+
+Thank you for being interested in our Vancouver Housing Market Dashboard!
+
+Our dashboard is designed to provide an interactive and informative way to explore the Vancouver housing market. Whether you're a real estate professional, a data analyst, or simply curious about housing trends in Vancouver, our dashboard has something for you.
+
+You may find information about the dashboard in this README file. To learn more about the features of our dashboard, jump to the sections below:
+
+-   [What is this all about?](#motivation-and-purpose)
+-   [About us](#who-are-we)
+-   [How can you contribute?](#be-a-contributor)
+-   [Keep in touch](#contact-us)
+-   [Interested in more?](#more-information)
+-   [Understand the jargon](#glossary)
+
+We hope you find our dashboard useful and informative. Happy exploring!
+
 ## Summary
 
 Our R-based dashboard application gives an easy way for people to explore housing prices in Vancouver city. More details can be found [here](reports/proposal.md).
+
+## Motivation and purpose 
+
+## Who are we 
+
+## Be a contributor 
+
+## Contact us 
+
+## More information 
+
+## Glossary
 
 ## Visualizations
 
