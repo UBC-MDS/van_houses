@@ -65,7 +65,7 @@ ui <- fluidPage(
           )
         )
       ),
-
+      
       # creating radio buttons for report year
       radioButtons(
         inputId = "reportyear",
@@ -102,17 +102,23 @@ ui <- fluidPage(
         label = "Select Community (multiple selection allowed):",
         selected = c("Shaughnessy", "Kerrisdale", "Downtown"),
         choices = sort(unique(house_data$`Geo Local Area`))
+      ),
+      
+      # adding a download button for downloading csv file
+      downloadButton(
+        outputId = "download_van_houses", 
+        label = "Save This Page"
       )
+      
     ),
     # four plot outputs
     mainPanel(
       fluidRow(
-        column(width = 5, plotOutput(outputId = "histogram_land_value")),
+        column(width = 6, plotOutput(outputId = "histogram_land_value")),
         column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
-        column(width = 5, "Third plot"),
-        column(width = 6, "Fourth plot")
+               column(width = 12, tableOutput(outputId = "table1"))
       ),
     )
   )
@@ -187,6 +193,39 @@ server <- function(input, output, session) {
         clusterOptions = markerClusterOptions()
       )
   })
+  
+  # table 1: Selected housing data preview
+  output$table1 <- renderTable(
+    filtered_data() |>
+      select("Geo Local Area",
+             full_address, 
+             current_land_value, 
+             current_improvement_value,
+             tax_assessment_year,
+             year_built) |>
+      rename("Area Name" = "Geo Local Area",
+             "full address" = full_address,
+             "current land value" = current_land_value,
+             "current improvement value" = current_improvement_value,
+             "annual tax assessment" = tax_assessment_year,
+             "year_built" = year_built)|>
+      head(10),
+    spacing = "s",
+    align = "c",
+    striped = TRUE
+  )
+  
+  # download button: downloading table 1 
+  output$download_van_houses <- downloadHandler(
+    filename = function() {
+      "van_houses.csv"
+    },
+    content = function(file) {
+      # Load selected housing dataset as a data frame
+      van_houses_df <- as.data.frame(filtered_data())
+      # Write the data frame to a CSV file
+      write.csv(van_houses_df, file, row.names = FALSE)
+    })
 }
 
 shinyApp(ui, server)
