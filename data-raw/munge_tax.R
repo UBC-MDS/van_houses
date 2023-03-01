@@ -29,7 +29,7 @@ munge_tax<- function(data_file){
   
   # join with tax dataframe
   print("Joining dataframes--------------------", quote = FALSE)
-  combo <- inner_join(tax, coords, by = c("land_coordinate" = "PCOORD"))
+  combo <- inner_join(tax, coords, by = c("land_coordinate" = "PCOORD"), multiple = "all")
   
   # remove duplicates of folio that are created when joined with coord df
   print("Removing duplicates-------------------", quote = FALSE)
@@ -49,6 +49,7 @@ munge_tax<- function(data_file){
   # make a column for the full address to use geocoding on
   print("Creating full address column----------", quote = FALSE)
   ll_df$full_address <- paste(
+    ifelse(is.na(ll_df$from_civic_number), "", paste(ll_df$from_civic_number," - ")),
     ll_df$to_civic_number,
     " ",
     ll_df$street_name,
