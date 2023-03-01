@@ -100,9 +100,9 @@ ui <- fluidPage(
       checkboxGroupInput(
         inputId = "community",
         label = "Select Community (multiple selection allowed):",
-        selected = c("Shaughnessy", "Kerrisdale", "Downtown"),
         choices = sort(unique(house_data$`Geo Local Area`))
       ),
+      checkboxInput("select_all", "Select All", value = FALSE),
     ),
     # four plot outputs
     mainPanel(
@@ -127,7 +127,15 @@ ui <- fluidPage(
 # Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
-
+  
+  observeEvent(input$select_all, {
+    if(input$select_all) {
+      updateCheckboxGroupInput(session, "community", selected = sort(unique(house_data$`Geo Local Area`)))
+    } else {
+      updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"),)
+    }
+  })
+  
   # filtered data set
   filtered_data <- reactive({
     house_data |>
