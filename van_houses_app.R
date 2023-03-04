@@ -96,6 +96,21 @@ ui <- fluidPage(
         sep = ""
       ),
 
+      selectInput(
+        "zoning",
+        "Select a Zoning Classification",
+        choices = c(
+          "Comprehensive Development",
+          "One-Family Dwelling",
+          "Commercial",
+          "Two-Family Dwelling",
+          "Multiple Dwelling",
+          "Single Detached House",
+          "Duplex",
+          "Other"
+        )
+      ),
+
       # creating picker for community
       checkboxGroupInput(
         inputId = "community",
@@ -111,8 +126,9 @@ ui <- fluidPage(
         column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map"))
       ),
       fluidRow(
+        column(width = 6, plotOutput(outputId = "bar_plot")),
         column(
-          width = 12, # adding a download button for downloading csv file
+          width = 6, # adding a download button for downloading csv file
           downloadButton(
             outputId = "download_van_houses",
             label = "Download Full Data"
@@ -127,7 +143,7 @@ ui <- fluidPage(
 # Creating server
 server <- function(input, output, session) {
   thematic::thematic_shiny()
-  
+
   observeEvent(input$select_all, {
     if(input$select_all) {
       updateCheckboxGroupInput(session, "community", selected = sort(unique(house_data$`Geo Local Area`)))
@@ -135,7 +151,7 @@ server <- function(input, output, session) {
       updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"),)
     }
   })
-  
+
   # filtered data set
   filtered_data <- reactive({
     house_data |>
@@ -145,6 +161,7 @@ server <- function(input, output, session) {
         year_built >= input$yearslider[1],
         year_built <= input$yearslider[2],
         report_year == input$reportyear,
+        zoning_classification == input$zoning,
         `Geo Local Area` %in% input$community
       )
   })
@@ -200,6 +217,13 @@ server <- function(input, output, session) {
         options = popupOptions(closeButton = FALSE),
         clusterOptions = markerClusterOptions()
       )
+  })
+
+  # plot3
+  output$bar_plot <- renderPlot({
+    filtered_data() |>
+      ggplot(aes(x = current_land_value, y = legal_type, fill = legal_type)) +
+        geom_bar(stat = "summary", fun.x = "mean")
   })
 
   # table 1: Selected housing data preview
