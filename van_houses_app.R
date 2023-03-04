@@ -79,8 +79,8 @@ ui <- fluidPage(
         inputId = "priceslider",
         label = "Price range",
         min = 300000,
-        max = 1000000,
-        value = range(300000, 1000000),
+        max = 5000000,
+        value = range(300000, 5000000),
         step = 1000,
         sep = ""
       ),
@@ -95,21 +95,12 @@ ui <- fluidPage(
         step = 1,
         sep = ""
       ),
-
-      selectInput(
-        "zoning",
-        "Select a Zoning Classification",
-        choices = c(
-          "Comprehensive Development",
-          "One-Family Dwelling",
-          "Commercial",
-          "Two-Family Dwelling",
-          "Multiple Dwelling",
-          "Single Detached House",
-          "Duplex",
-          "Other"
-        )
+      checkboxGroupInput(
+        inputId = "zoning",
+        label = "Select a Zoning Classification (multiple selection allowed):",
+        choices = sort(unique(house_data$zoning_classification))
       ),
+      checkboxInput("select_all_zoning", "Select All", value = FALSE),
 
       # creating picker for community
       checkboxGroupInput(
@@ -122,13 +113,13 @@ ui <- fluidPage(
     # four plot outputs
     mainPanel(
       fluidRow(
-        column(width = 6, plotOutput(outputId = "histogram_land_value")),
-        column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map"))
+        column(width = 4, leaflet::leafletOutput(outputId = "vancouver_map")),
+        column(width = 4, plotOutput(outputId = "histogram_land_value")),
+        column(width = 4, plotlyOutput(outputId = "box_plot")),
       ),
       fluidRow(
-        column(width = 6, plotOutput(outputId = "bar_plot")),
         column(
-          width = 6, # adding a download button for downloading csv file
+          width = 12, # adding a download button for downloading csv file
           downloadButton(
             outputId = "download_van_houses",
             label = "Download Full Data"
@@ -144,11 +135,24 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   thematic::thematic_shiny()
 
+  observeEvent(input$select_all_zoning, {
+    if (input$select_all_zoning) {
+      updateCheckboxGroupInput(session, "zoning", selected = sort(unique(house_data$zoning_classification)))
+    } else {
+      updateCheckboxGroupInput(session, "zoning", selected = c(
+        "Comprehensive Development",
+        "One-Family Dwelling",
+        "Single Detached House",
+        "Two-Family Dwelling"
+      ))
+    }
+  })
+
   observeEvent(input$select_all, {
-    if(input$select_all) {
+    if (input$select_all) {
       updateCheckboxGroupInput(session, "community", selected = sort(unique(house_data$`Geo Local Area`)))
     } else {
-      updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"),)
+      updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"), )
     }
   })
 
@@ -161,7 +165,7 @@ server <- function(input, output, session) {
         year_built >= input$yearslider[1],
         year_built <= input$yearslider[2],
         report_year == input$reportyear,
-        zoning_classification == input$zoning,
+        zoning_classification %in% input$zoning,
         `Geo Local Area` %in% input$community
       )
   })
@@ -188,19 +192,7 @@ server <- function(input, output, session) {
     round(mean(na.omit(filtered_data()$big_improvement_year)), 0)
   )
 
-  # plot1: histogram_land_value
-  output$histogram_land_value <- renderPlot({
-    plot1 <- filtered_data()
-
-    hist(plot1$current_land_value,
-      col = "darkgray", border = "white",
-      xlab = "House Price ($)",
-      ylab = "Number of Houses",
-      main = "House Price Distribtuion",
-    )
-  })
-
-  # plot2: map of Vancouver showing selected communities
+  # plot1: map of Vancouver showing selected communities
   output$vancouver_map <- leaflet::renderLeaflet({
     filtered_data() |>
       leaflet::leaflet() |>
@@ -219,11 +211,30 @@ server <- function(input, output, session) {
       )
   })
 
-  # plot3
-  output$bar_plot <- renderPlot({
-    filtered_data() |>
-      ggplot(aes(x = current_land_value, y = legal_type, fill = legal_type)) +
-        geom_bar(stat = "summary", fun.x = "mean")
+  # plot2: histogram of housing price
+  output$histogram_land_value <- renderPlot({
+    plot1 <- filtered_data()
+
+    hist(plot1$current_land_value,
+      col = "darkgray", border = "white",
+      xlab = "House Price ($)",
+      ylab = "Number of Houses",
+      main = "House Price Distribution",
+    )
+  })
+
+  # plot3: boxplot of land legal type
+  output$box_plot <- renderPlotly({
+    plot_ly(filtered_data(),
+            x= ~current_land_value,
+            y= ~legal_type,
+            type = "box", 
+            orientation = "h"
+    ) |>
+      layout(
+        xaxis = list(title = "House Price ($)"),
+        yaxis = list(title = "Legal Type"),
+        title = "Price per Legal Type")
   })
 
   # table 1: Selected housing data preview
