@@ -46,7 +46,7 @@ The development of this app for Vancouver's housing market was a collaborative e
 
 Ideally all the interactive features in these 4 visualizations are linked together. When you make a selection on one chart, all the other 3 will update accordingly as well.
 
-On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="img/vanhouses.gif"/>
+On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="docs/images/vanhouses.gif" width="1000" height="500"/>
 ## Installation
 
 To install `van_houses` locally, you must have R and RStudio installed on your computer. Once you have these tools, you may install and run the app by following these instructions:
