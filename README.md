@@ -1,4 +1,4 @@
-# Vancouver Housing Market Dashboard
+# Vancouver Housing Market Dashboard <img src='img/logo.png' align="right" height="139" />
 
 -   Authors: Morris Zhao, Hanchen Wang, Ziyi Chen, Ken Wang
 
