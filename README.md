@@ -63,7 +63,7 @@ install.packages(c("shiny", "bslib", "thematic", "plotly", "tidyverse", "leaflet
 5. Run the app by clicking the "Run App" button in the top right corner of the RStudio window or use the console to run the app:
 
 ```{r}
-RScript app.R
+RScript van_houses_app.R
 ```
 
 Your web browser should now open the app in a new window or tab. You may interact with the app and explore information about the housing market in Vancouver.
