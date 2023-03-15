@@ -18,9 +18,10 @@ load(file = "data-raw/house_data.rda")
 
 # Creating ui
 ui <- fluidPage(
-  theme = bslib::bs_theme(bootswatch = "journal"),
+  navbarPage(
+  theme = bslib::bs_theme(bootswatch = "lux"),
   # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
-  titlePanel(div(textOutput(outputId = "title"))),
+  titlePanel(div(tags$img(src = "img/logo.png"), textOutput(outputId = "title"))),
   sidebarLayout(
     sidebarPanel(
       width = 3,
@@ -147,11 +148,11 @@ ui <- fluidPage(
           DT::dataTableOutput(outputId = "table1"),
         )
       ),
-    )))
+    ))))
 
 # Creating server
 server <- function(input, output, session) {
-  thematic::thematic_shiny()
+  thematic::thematic_shiny(font = "auto")
 
   observeEvent(input$select_all_zoning, {
     if (input$select_all_zoning) {
