@@ -95,20 +95,39 @@ ui <- fluidPage(
         step = 1,
         sep = ""
       ),
-      checkboxGroupInput(
+      
+      # checkboxGroupInput(
+      #   inputId = "zoning",
+      #   label = "Select a Zoning Classification (multiple selection allowed):",
+      #   choices = sort(unique(house_data$zoning_classification))
+      # ),
+      # checkboxInput("select_all_zoning", "Select All", value = FALSE),
+      
+      # select zoning
+      selectInput(
         inputId = "zoning",
-        label = "Select a Zoning Classification (multiple selection allowed):",
-        choices = sort(unique(house_data$zoning_classification))
+        label = "Select a Zoning Classification:",
+        choices = sort(unique(house_data$zoning_classification)),
+        multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
 
       # creating picker for community
-      checkboxGroupInput(
+      # checkboxGroupInput(
+      #   inputId = "community",
+      #   label = "Select Community (multiple selection allowed):",
+      #   choices = sort(unique(house_data$`Geo Local Area`))
+      # ),
+      # checkboxInput("select_all", "Select All", value = FALSE),
+      
+      selectInput(
         inputId = "community",
-        label = "Select Community (multiple selection allowed):",
-        choices = sort(unique(house_data$`Geo Local Area`))
+        label = "Select Community:",
+        choices = sort(unique(house_data$`Geo Local Area`)),
+        multiple = TRUE
       ),
       checkboxInput("select_all", "Select All", value = FALSE),
+      
     ),
     # four plot outputs
     mainPanel(
