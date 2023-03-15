@@ -156,7 +156,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$select_all_zoning, {
     if (input$select_all_zoning) {
-      updateCheckboxGroupInput(session, "zoning", selected = sort(unique(house_data$zoning_classification)))
+      updateCheckboxGroupInput(session, "zoning", selected = unique(house_data$zoning_classification))
     } else {
       updateCheckboxGroupInput(session, "zoning", selected = c(
         "Comprehensive Development",
@@ -169,7 +169,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$select_all, {
     if (input$select_all) {
-      updateCheckboxGroupInput(session, "community", selected = sort(unique(house_data$`Geo Local Area`)))
+      updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`))
     } else {
       updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"), )
     }
