@@ -21,7 +21,7 @@ ui <- fluidPage(
   navbarPage(
   theme = bslib::bs_theme(bootswatch = "lux"),
   # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
-  titlePanel(div(tags$img(src = "img/logo.png"), textOutput(outputId = "title"))),
+  titlePanel(div(column(width=3, tags$img(src = "logo.png", height=50, width=50)), column(width = 6, textOutput(outputId = "title")))),
   sidebarLayout(
     sidebarPanel(
       width = 3,
