@@ -19,10 +19,11 @@ load(file = "data-raw/house_data.rda")
 # Creating ui
 ui <- fluidPage(
   theme = bslib::bs_theme(bootswatch = "journal"),
+  # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
   titlePanel(div(textOutput(outputId = "title"))),
   sidebarLayout(
     sidebarPanel(
-
+      width = 3,
       # creating radio buttons for report year
       radioButtons(
         inputId = "reportyear",
