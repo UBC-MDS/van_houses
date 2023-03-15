@@ -22,49 +22,6 @@ ui <- fluidPage(
   titlePanel(div(textOutput(outputId = "title"))),
   sidebarLayout(
     sidebarPanel(
-      # Create four stats summary to give an overall view
-      # number of Houses
-      fluidRow(
-        column(
-          width = 5,
-          div(
-            style = "height:100px;",
-            "Stat 1: Number of Houses",
-            textOutput(outputId = "num_houses")
-          )
-        ),
-        # average house price
-        column(
-          width = 5,
-          offset = 2,
-          div(
-            style = "height:100px;",
-            "Stat 2: Average House Price",
-            textOutput(outputId = "avg_price")
-          )
-        )
-      ),
-      # average year built
-      fluidRow(
-        column(
-          width = 5,
-          div(
-            style = "height:100px;",
-            "Stat 3: Average Year of House Built",
-            textOutput(outputId = "avg_year_built")
-          )
-        ),
-        # average year house improved
-        column(
-          width = 5,
-          offset = 2,
-          div(
-            style = "height:100px;",
-            "Stat 4: Average Year of House Improvement",
-            textOutput(outputId = "avg_year_improve")
-          )
-        )
-      ),
 
       # creating radio buttons for report year
       radioButtons(
@@ -131,11 +88,54 @@ ui <- fluidPage(
     ),
     # four plot outputs
     mainPanel(
+      # column(width = 4, plotlyOutput(outputId = "box_plot")),
+      # Create four stats summary to give an overall view
+      # number of Houses
       fluidRow(
-        column(width = 4, leaflet::leafletOutput(outputId = "vancouver_map")),
-        column(width = 4, plotOutput(outputId = "histogram_land_value")),
-        column(width = 4, plotlyOutput(outputId = "box_plot")),
+        column(
+          width = 3,
+          div(
+            style = "height:100px;",
+            "Stat 1: Number of Houses",
+            textOutput(outputId = "num_houses")
+          )
+        ),
+        # average house price
+        column(
+          width = 3,
+          offset = 0.5,
+          div(
+            style = "height:100px;",
+            "Stat 2: Average House Price",
+            textOutput(outputId = "avg_price")
+          )
+        ),
+        # average year built
+        column(
+          width = 3,
+          div(
+            style = "height:100px;",
+            "Stat 3: Average Year of House Built",
+            textOutput(outputId = "avg_year_built")
+          )
+        ),
+        # average year house improved
+        column(
+          width = 3,
+          offset = 0.5,
+          div(
+            style = "height:100px;",
+            "Stat 4: Average Year of House Improvement",
+            textOutput(outputId = "avg_year_improve")
+          )
+        ),
       ),
+      
+      fluidRow(
+        column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map")),
+        column(width = 6, plotOutput(outputId = "histogram_land_value"))
+        ),
+      
       fluidRow(
         column(
           width = 12, # adding a download button for downloading csv file
@@ -146,9 +146,7 @@ ui <- fluidPage(
           DT::dataTableOutput(outputId = "table1"),
         )
       ),
-    )
-  )
-)
+    )))
 
 # Creating server
 server <- function(input, output, session) {
