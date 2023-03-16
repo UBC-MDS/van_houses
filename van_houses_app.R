@@ -4,6 +4,7 @@ library(thematic)
 library(plotly)
 library(tidyverse)
 library(leaflet)
+library(shinyWidgets)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -16,13 +17,24 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
+light_theme <- bslib::bs_theme(bootswatch = "spacelab")
+
+dark_theme <- bslib::bs_theme(bootswatch = "darkly")
+
 # Creating ui
 ui <- fluidPage(
-  theme = bslib::bs_theme(bootswatch = "journal"),
-  titlePanel(div(textOutput(outputId = "title"))),
+  theme = light_theme,
+  titlePanel(
+    div(
+      style = "display: flex; align-items: center; height: 30px;",
+      tags$img(src = "logo.png", height = 50, width = 50),
+      textOutput(outputId = "title"), style = "font-size: 30px"
+    )
+  ),
+  title = "Vancouver Housing App",
   sidebarLayout(
     sidebarPanel(
-
+      width = 3,
       # creating radio buttons for report year
       radioButtons(
         inputId = "reportyear",
@@ -52,31 +64,15 @@ ui <- fluidPage(
         step = 1,
         sep = ""
       ),
-      
-      # checkboxGroupInput(
-      #   inputId = "zoning",
-      #   label = "Select a Zoning Classification (multiple selection allowed):",
-      #   choices = sort(unique(house_data$zoning_classification))
-      # ),
-      # checkboxInput("select_all_zoning", "Select All", value = FALSE),
-      
+
       # select zoning
       selectInput(
         inputId = "zoning",
-        label = "Select a Zoning Classification:",
+        label = "Select Zoning Classification:",
         choices = sort(unique(house_data$zoning_classification)),
         multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
-
-      # creating picker for community
-      # checkboxGroupInput(
-      #   inputId = "community",
-      #   label = "Select Community (multiple selection allowed):",
-      #   choices = sort(unique(house_data$`Geo Local Area`))
-      # ),
-      # checkboxInput("select_all", "Select All", value = FALSE),
-      
       selectInput(
         inputId = "community",
         label = "Select Community:",
@@ -84,7 +80,12 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       checkboxInput("select_all", "Select All", value = FALSE),
-      
+      shinyWidgets::materialSwitch(
+        inputId = "toggle_theme",
+        label = span(icon("lightbulb"), "Dark Mode"),
+        value = FALSE,
+        status = "info"
+      ),
     ),
     # four plot outputs
     mainPanel(
@@ -92,69 +93,137 @@ ui <- fluidPage(
       # Create four stats summary to give an overall view
       # number of Houses
       fluidRow(
-        column(
-          width = 3,
-          div(
-            style = "height:100px;",
-            "Stat 1: Number of Houses",
-            textOutput(outputId = "num_houses")
-          )
-        ),
-        # average house price
-        column(
-          width = 3,
-          offset = 0.5,
-          div(
-            style = "height:100px;",
-            "Stat 2: Average House Price",
-            textOutput(outputId = "avg_price")
-          )
-        ),
-        # average year built
-        column(
-          width = 3,
-          div(
-            style = "height:100px;",
-            "Stat 3: Average Year of House Built",
-            textOutput(outputId = "avg_year_built")
-          )
-        ),
-        # average year house improved
-        column(
-          width = 3,
-          offset = 0.5,
-          div(
-            style = "height:100px;",
-            "Stat 4: Average Year of House Improvement",
-            textOutput(outputId = "avg_year_improve")
-          )
-        ),
-      ),
-      
-      fluidRow(
-        column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map")),
-        column(width = 6, plotOutput(outputId = "histogram_land_value"))
-        ),
-      
-      fluidRow(
-        column(
-          width = 12, # adding a download button for downloading csv file
-          downloadButton(
-            outputId = "download_van_houses",
-            label = "Download Full Data"
+        layout_column_wrap(
+          width = 1 / 4,
+          card(
+            div(
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "num_houses")
+              ),
+              span(
+                icon("house"),
+                "Houses Reported",
+                style = "font-size: 15px"
+              )
+            )
           ),
-          DT::dataTableOutput(outputId = "table1"),
+          # average house price
+          card(
+            div(
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_price")
+              ),
+              span(
+                icon("sack-dollar"),
+                "Average House Price",
+                style = "font-size: 15px"
+              )
+            )
+          ),
+          # average year built
+          card(
+            div(
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_year_built")
+              ),
+              span(
+                icon("hammer"),
+                "Avg. Built Year",
+                style = "font-size: 15px"
+              )
+            )
+          ),
+          # average year house improved
+          card(
+            div(
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_year_improve")
+              ),
+              span(
+                icon("wrench"),
+                "Avg. Improvement Year",
+                style = "font-size: 15px"
+              )
+            )
+          ),
         )
       ),
-    )))
+      fluidRow(
+        layout_column_wrap(
+          width = 1 / 2,
+          height = 600,
+          fill = TRUE,
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 20px")
+            ),
+            card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
+          ),
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 20px")
+            ),
+            card_body_fill(plotOutput(outputId = "histogram_land_value"))
+          ),
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("table-list"), " Detailed data",
+                downloadButton(
+                  outputId = "download_van_houses",
+                  label = "Download Selected Data"
+                ),
+                style = "font-size: 20px",
+                class = "rightAlign"
+              )
+            ),
+            tags$style(".card-header span { display: flex; justify-content: space-between; align-items: center; }"),
+            card_body_fill( # adding a download button for downloading csv file
+              DT::dataTableOutput(outputId = "table1")
+            )
+          ),
+        )
+      ),
+    ),
+  ),
+  footer = tags$div(
+    class = "footer",
+    p(
+      hr(),
+      column(4, p()),
+      column(4, p()),
+      column(4, p()),
+    ),
+    p("2023 © H. Wang, K. Wang, M. Zhao, Z. Chen")
+  )
+)
 
 # Creating server
 server <- function(input, output, session) {
-  thematic::thematic_shiny()
+  # shinythemes::themeSelector(),
+  # Dark Mode
+  observe({
+    session$setCurrentTheme(
+      if (isTRUE(input$toggle_theme)) {
+        dark_theme
+      } else {
+        light_theme
+      }
+    )
+  })
 
   observeEvent(input$select_all_zoning, {
     if (input$select_all_zoning) {
-      updateCheckboxGroupInput(session, "zoning", selected = sort(unique(house_data$zoning_classification)))
+      updateCheckboxGroupInput(session, "zoning", selected = unique(house_data$zoning_classification))
     } else {
       updateCheckboxGroupInput(session, "zoning", selected = c(
         "Comprehensive Development",
@@ -167,7 +236,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$select_all, {
     if (input$select_all) {
-      updateCheckboxGroupInput(session, "community", selected = sort(unique(house_data$`Geo Local Area`)))
+      updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`))
     } else {
       updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"), )
     }
@@ -236,22 +305,24 @@ server <- function(input, output, session) {
       col = "darkgray", border = "white",
       xlab = "House Price ($)",
       ylab = "Number of Houses",
-      main = "House Price Distribution",
+      main = NULL,
+      breaks = seq(0, 5000000, by = 500000),
     )
   })
 
   # plot3: boxplot of land legal type
   output$box_plot <- renderPlotly({
     plot_ly(filtered_data(),
-            x= ~current_land_value,
-            y= ~legal_type,
-            type = "box", 
-            orientation = "h"
+      x = ~current_land_value,
+      y = ~legal_type,
+      type = "box",
+      orientation = "h"
     ) |>
       layout(
         xaxis = list(title = "House Price ($)"),
         yaxis = list(title = "Legal Type"),
-        title = "Price per Legal Type")
+        title = "Price per Legal Type"
+      )
   })
 
   # table 1: Selected housing data preview
