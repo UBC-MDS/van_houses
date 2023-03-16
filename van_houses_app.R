@@ -61,13 +61,6 @@ ui <- fluidPage(
         sep = ""
       ),
 
-      # checkboxGroupInput(
-      #   inputId = "zoning",
-      #   label = "Select a Zoning Classification (multiple selection allowed):",
-      #   choices = sort(unique(house_data$zoning_classification))
-      # ),
-      # checkboxInput("select_all_zoning", "Select All", value = FALSE),
-
       # select zoning
       selectInput(
         inputId = "zoning",
@@ -76,14 +69,6 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
-
-      # creating picker for community
-      # checkboxGroupInput(
-      #   inputId = "community",
-      #   label = "Select Community (multiple selection allowed):",
-      #   choices = sort(unique(house_data$`Geo Local Area`))
-      # ),
-      # checkboxInput("select_all", "Select All", value = FALSE),
 
       selectInput(
         inputId = "community",
@@ -195,17 +180,6 @@ ui <- fluidPage(
           ),
         )
       ),
-      # fluidRow(
-      #   card(
-      #     full_screen = TRUE,
-      #     # adding a download button for downloading csv file
-      #     downloadButton(
-      #       outputId = "download_van_houses",
-      #       label = "Download Full Data"
-      #     ),
-      #     DT::dataTableOutput(outputId = "table1"),
-      #   )
-      # ),
     ),
   ),
   footer = tags$div(
