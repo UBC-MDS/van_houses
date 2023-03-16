@@ -214,9 +214,9 @@ server <- function(input, output, session) {
   observe({
     session$setCurrentTheme(
       if (isTRUE(input$toggle_theme)) {
-        light_theme
-      } else {
         dark_theme
+      } else {
+        light_theme
       }
     )
   })
