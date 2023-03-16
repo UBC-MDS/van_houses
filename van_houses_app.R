@@ -103,29 +103,53 @@ ui <- fluidPage(
           width = 1 / 4,
           card(
             div(
-              "Number of Houses",
-              textOutput(outputId = "num_houses")
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "num_houses")
+                ),
+              span(
+                "Houses Reported",
+                style = "font-size: 15px"
+              )
             )
           ),
           # average house price
           card(
             div(
-              "Average House Price",
-              textOutput(outputId = "avg_price")
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_price")
+              ),
+              span(
+                "Average House Price",
+                style = "font-size: 15px"
+              )
             )
           ),
           # average year built
           card(
             div(
-              "Average Year of House Built",
-              textOutput(outputId = "avg_year_built")
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_year_built")
+              ),
+              span(
+                "Average Built Year",
+                style = "font-size: 15px"
+              )
             )
           ),
           # average year house improved
           card(
             div(
-              "Average Year of House Improvement",
-              textOutput(outputId = "avg_year_improve")
+              span(
+                style = "font-size: 30px;",
+                textOutput(outputId = "avg_year_improve")
+              ),
+              span(
+                "Average Improvement Year",
+                style = "font-size: 15px"
+              )
             )
           ),
         )
