@@ -69,7 +69,6 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
-
       selectInput(
         inputId = "community",
         label = "Select Community:",
@@ -91,8 +90,9 @@ ui <- fluidPage(
               span(
                 style = "font-size: 30px;",
                 textOutput(outputId = "num_houses")
-                ),
+              ),
               span(
+                icon("house"),
                 "Houses Reported",
                 style = "font-size: 15px"
               )
@@ -106,6 +106,7 @@ ui <- fluidPage(
                 textOutput(outputId = "avg_price")
               ),
               span(
+                icon("sack-dollar"), 
                 "Average House Price",
                 style = "font-size: 15px"
               )
@@ -119,7 +120,8 @@ ui <- fluidPage(
                 textOutput(outputId = "avg_year_built")
               ),
               span(
-                "Average Built Year",
+                icon("hammer"),
+                "Avg. Built Year",
                 style = "font-size: 15px"
               )
             )
@@ -132,7 +134,8 @@ ui <- fluidPage(
                 textOutput(outputId = "avg_year_improve")
               ),
               span(
-                "Average Improvement Year",
+                icon("wrench"), 
+                "Avg. Improvement Year",
                 style = "font-size: 15px"
               )
             )
@@ -282,7 +285,7 @@ server <- function(input, output, session) {
       col = "darkgray", border = "white",
       xlab = "House Price ($)",
       ylab = "Number of Houses",
-      # main = "House Price Distribution",
+      main = NULL,
       breaks = seq(0, 5000000, by = 500000),
     )
   })
