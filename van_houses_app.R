@@ -4,6 +4,7 @@ library(thematic)
 library(plotly)
 library(tidyverse)
 library(leaflet)
+library(shinyWidgets)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -16,10 +17,13 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
+light_theme <- bslib::bs_theme(bootswatch = "spacelab")
+
+dark_theme <- bslib::bs_theme(bootswatch = "darkly")
+
 # Creating ui
 ui <- fluidPage(
-  theme = bslib::bs_theme(bootswatch = "superhero"),
-  # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
+  theme = light_theme,
   titlePanel(
     div(
       style = "display: flex; align-items: center; height: 30px;",
@@ -64,7 +68,7 @@ ui <- fluidPage(
       # select zoning
       selectInput(
         inputId = "zoning",
-        label = "Select a Zoning Classification:",
+        label = "Select Zoning Classification:",
         choices = sort(unique(house_data$zoning_classification)),
         multiple = TRUE
       ),
@@ -76,6 +80,12 @@ ui <- fluidPage(
         multiple = TRUE
       ),
       checkboxInput("select_all", "Select All", value = FALSE),
+      shinyWidgets::materialSwitch(
+        inputId = "toggle_theme",
+        label = span(icon("lightbulb"), "Dark Mode"),
+        value = FALSE,
+        status = "info"
+      ),
     ),
     # four plot outputs
     mainPanel(
@@ -106,7 +116,7 @@ ui <- fluidPage(
                 textOutput(outputId = "avg_price")
               ),
               span(
-                icon("sack-dollar"), 
+                icon("sack-dollar"),
                 "Average House Price",
                 style = "font-size: 15px"
               )
@@ -134,7 +144,7 @@ ui <- fluidPage(
                 textOutput(outputId = "avg_year_improve")
               ),
               span(
-                icon("wrench"), 
+                icon("wrench"),
                 "Avg. Improvement Year",
                 style = "font-size: 15px"
               )
@@ -199,7 +209,17 @@ ui <- fluidPage(
 
 # Creating server
 server <- function(input, output, session) {
-  thematic::thematic_shiny(font = "auto")
+  # shinythemes::themeSelector(),
+  # Dark Mode
+  observe({
+    session$setCurrentTheme(
+      if (isTRUE(input$toggle_theme)) {
+        light_theme
+      } else {
+        dark_theme
+      }
+    )
+  })
 
   observeEvent(input$select_all_zoning, {
     if (input$select_all_zoning) {
