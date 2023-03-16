@@ -135,17 +135,29 @@ ui <- fluidPage(
           width = 1 / 2,
           height = 600,
           fill = TRUE, 
-          card(full_screen = TRUE, leaflet::leafletOutput(outputId = "vancouver_map")),
-          card(full_screen = TRUE, plotOutput(outputId = "histogram_land_value")),
-          card(
-            full_screen = TRUE,
-            # adding a download button for downloading csv file
-            downloadButton(
-              outputId = "download_van_houses",
-              label = "Download Full Data"
-            ),
-            DT::dataTableOutput(outputId = "table1"),
-          )
+          card(full_screen = TRUE, 
+               card_header(
+                 # class = "bg-dark",
+                 span(icon("map-location-dot"), "Map of Vancouver", style = 'font-size: 20px')),
+               card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
+          ),
+          card(full_screen = TRUE, 
+               card_header(
+                 # class = "bg-dark",
+                 span(icon("chart-simple"), "Distribution of House Values", style = 'font-size: 20px')),
+               card_body_fill(plotOutput(outputId = "histogram_land_value"))
+          ),
+          card(full_screen = TRUE, 
+               card_header(
+                 # class = "bg-dark",
+                 span(icon("table-list"), "Detailed data", style = 'font-size: 20px')),
+               card_body_fill(# adding a download button for downloading csv file
+                 downloadButton(
+                   outputId = "download_van_houses",
+                   label = "Download Full Data"
+                 ),
+                 DT::dataTableOutput(outputId = "table1"))
+          ),
         )
       ),
       # fluidRow(
