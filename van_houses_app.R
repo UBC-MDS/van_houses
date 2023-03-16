@@ -19,11 +19,15 @@ load(file = "data-raw/house_data.rda")
 # Creating ui
 ui <- fluidPage(
   navbarPage(
-    theme = bslib::bs_theme(bootswatch = "lux"),
+    theme = bslib::bs_theme(bootswatch = "darkly"),
     # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
-    titlePanel(div(style = "display: flex; align-items: center;",
-                   tags$img(src = "logo.png", height = 50, width = 50), 
-                   textOutput(outputId = "title"))),
+    titlePanel(
+      div(
+        style = "display: flex; align-items: center; height: 30px;",
+        tags$img(src = "logo.png", height = 50, width = 50),
+        textOutput(outputId = "title"), style = "font-size: 30px"
+      )
+    ),
     sidebarLayout(
       sidebarPanel(
         width = 3,
@@ -132,10 +136,11 @@ ui <- fluidPage(
         ),
         fluidRow(
           layout_column_wrap(
-            width=1/2,
+            width = 1 / 2,
             card(full_screen = TRUE, leaflet::leafletOutput(outputId = "vancouver_map")),
             card(full_screen = TRUE, plotOutput(outputId = "histogram_land_value"))
-        )),
+          )
+        ),
         fluidRow(
           card(
             full_screen = TRUE,
