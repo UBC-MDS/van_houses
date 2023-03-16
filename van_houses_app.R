@@ -19,136 +19,136 @@ load(file = "data-raw/house_data.rda")
 # Creating ui
 ui <- fluidPage(
   navbarPage(
-  theme = bslib::bs_theme(bootswatch = "lux"),
-  # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
-  titlePanel(div(column(width=3, tags$img(src = "logo.png", height=50, width=50)), column(width = 6, textOutput(outputId = "title")))),
-  sidebarLayout(
-    sidebarPanel(
-      width = 3,
-      # creating radio buttons for report year
-      radioButtons(
-        inputId = "reportyear",
-        label = "Select Report Year",
-        selected = "2023",
-        choices = sort(unique(house_data$report_year))
-      ),
+    theme = bslib::bs_theme(bootswatch = "lux"),
+    # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
+    sidebarLayout(
+      sidebarPanel(
+        width = 3,
+        # creating radio buttons for report year
+        radioButtons(
+          inputId = "reportyear",
+          label = "Select Report Year",
+          selected = "2023",
+          choices = sort(unique(house_data$report_year))
+        ),
 
-      # Create slider for house price
-      sliderInput(
-        inputId = "priceslider",
-        label = "Price range",
-        min = 300000,
-        max = 5000000,
-        value = range(300000, 5000000),
-        step = 1000,
-        sep = ""
-      ),
+        # Create slider for house price
+        sliderInput(
+          inputId = "priceslider",
+          label = "Price range",
+          min = 300000,
+          max = 5000000,
+          value = range(300000, 5000000),
+          step = 1000,
+          sep = ""
+        ),
 
-      # create slider for year built
-      sliderInput(
-        inputId = "yearslider",
-        label = "Year built",
-        min = 1975,
-        max = 2016,
-        value = range(1975, 2016),
-        step = 1,
-        sep = ""
-      ),
-      
-      # checkboxGroupInput(
-      #   inputId = "zoning",
-      #   label = "Select a Zoning Classification (multiple selection allowed):",
-      #   choices = sort(unique(house_data$zoning_classification))
-      # ),
-      # checkboxInput("select_all_zoning", "Select All", value = FALSE),
-      
-      # select zoning
-      selectInput(
-        inputId = "zoning",
-        label = "Select a Zoning Classification:",
-        choices = sort(unique(house_data$zoning_classification)),
-        multiple = TRUE
-      ),
-      checkboxInput("select_all_zoning", "Select All", value = FALSE),
+        # create slider for year built
+        sliderInput(
+          inputId = "yearslider",
+          label = "Year built",
+          min = 1975,
+          max = 2016,
+          value = range(1975, 2016),
+          step = 1,
+          sep = ""
+        ),
 
-      # creating picker for community
-      # checkboxGroupInput(
-      #   inputId = "community",
-      #   label = "Select Community (multiple selection allowed):",
-      #   choices = sort(unique(house_data$`Geo Local Area`))
-      # ),
-      # checkboxInput("select_all", "Select All", value = FALSE),
-      
-      selectInput(
-        inputId = "community",
-        label = "Select Community:",
-        choices = sort(unique(house_data$`Geo Local Area`)),
-        multiple = TRUE
+        # checkboxGroupInput(
+        #   inputId = "zoning",
+        #   label = "Select a Zoning Classification (multiple selection allowed):",
+        #   choices = sort(unique(house_data$zoning_classification))
+        # ),
+        # checkboxInput("select_all_zoning", "Select All", value = FALSE),
+
+        # select zoning
+        selectInput(
+          inputId = "zoning",
+          label = "Select a Zoning Classification:",
+          choices = sort(unique(house_data$zoning_classification)),
+          multiple = TRUE
+        ),
+        checkboxInput("select_all_zoning", "Select All", value = FALSE),
+
+        # creating picker for community
+        # checkboxGroupInput(
+        #   inputId = "community",
+        #   label = "Select Community (multiple selection allowed):",
+        #   choices = sort(unique(house_data$`Geo Local Area`))
+        # ),
+        # checkboxInput("select_all", "Select All", value = FALSE),
+
+        selectInput(
+          inputId = "community",
+          label = "Select Community:",
+          choices = sort(unique(house_data$`Geo Local Area`)),
+          multiple = TRUE
+        ),
+        checkboxInput("select_all", "Select All", value = FALSE),
       ),
-      checkboxInput("select_all", "Select All", value = FALSE),
-      
-    ),
-    # four plot outputs
-    mainPanel(
-      # column(width = 4, plotlyOutput(outputId = "box_plot")),
-      # Create four stats summary to give an overall view
-      # number of Houses
-      fluidRow(
-        column(
-          width = 3,
-          div(
-            style = "height:100px;",
-            "Stat 1: Number of Houses",
-            textOutput(outputId = "num_houses")
+      # four plot outputs
+      mainPanel(
+        titlePanel(div(column(width = 3, tags$img(src = "logo.png", height = 50, width = 50)), column(width = 6, textOutput(outputId = "title")))),
+        # column(width = 4, plotlyOutput(outputId = "box_plot")),
+        # Create four stats summary to give an overall view
+        # number of Houses
+        fluidRow(
+          layout_column_wrap(
+            width = 1 / 4,
+            card(
+              div(
+                style = "height:100px;",
+                "Stat 1: Number of Houses",
+                textOutput(outputId = "num_houses")
+              )
+            ),
+            # average house price
+            card(
+              div(
+                style = "height:100px;",
+                "Stat 2: Average House Price",
+                textOutput(outputId = "avg_price")
+              )
+            ),
+            # average year built
+            card(
+              div(
+                style = "height:100px;",
+                "Stat 3: Average Year of House Built",
+                textOutput(outputId = "avg_year_built")
+              )
+            ),
+            # average year house improved
+            card(
+              div(
+                style = "height:100px;",
+                "Stat 4: Average Year of House Improvement",
+                textOutput(outputId = "avg_year_improve")
+              )
+            ),
           )
         ),
-        # average house price
-        column(
-          width = 3,
-          offset = 0.5,
-          div(
-            style = "height:100px;",
-            "Stat 2: Average House Price",
-            textOutput(outputId = "avg_price")
+        fluidRow(
+          layout_column_wrap(
+            width=1/2,
+            card(full_screen = TRUE, leaflet::leafletOutput(outputId = "vancouver_map")),
+            card(full_screen = TRUE, plotOutput(outputId = "histogram_land_value"))
+        )),
+        fluidRow(
+          card(
+            full_screen = TRUE,
+            # adding a download button for downloading csv file
+            downloadButton(
+              outputId = "download_van_houses",
+              label = "Download Full Data"
+            ),
+            DT::dataTableOutput(outputId = "table1"),
           )
         ),
-        # average year built
-        column(
-          width = 3,
-          div(
-            style = "height:100px;",
-            "Stat 3: Average Year of House Built",
-            textOutput(outputId = "avg_year_built")
-          )
-        ),
-        # average year house improved
-        column(
-          width = 3,
-          offset = 0.5,
-          div(
-            style = "height:100px;",
-            "Stat 4: Average Year of House Improvement",
-            textOutput(outputId = "avg_year_improve")
-          )
-        ),
-      ),
-      
-      fluidRow(
-        column(width = 6, leaflet::leafletOutput(outputId = "vancouver_map")),
-        column(width = 6, plotOutput(outputId = "histogram_land_value"))
-        ),
-      
-      fluidRow(
-        column(
-          width = 12, # adding a download button for downloading csv file
-          downloadButton(
-            outputId = "download_van_houses",
-            label = "Download Full Data"
-          ),
-          DT::dataTableOutput(outputId = "table1"),
-        )
-      ),
-    ))))
+      )
+    )
+  )
+)
 
 # Creating server
 server <- function(input, output, session) {
@@ -245,15 +245,16 @@ server <- function(input, output, session) {
   # plot3: boxplot of land legal type
   output$box_plot <- renderPlotly({
     plot_ly(filtered_data(),
-            x= ~current_land_value,
-            y= ~legal_type,
-            type = "box", 
-            orientation = "h"
+      x = ~current_land_value,
+      y = ~legal_type,
+      type = "box",
+      orientation = "h"
     ) |>
       layout(
         xaxis = list(title = "House Price ($)"),
         yaxis = list(title = "Legal Type"),
-        title = "Price per Legal Type")
+        title = "Price per Legal Type"
+      )
   })
 
   # table 1: Selected housing data preview
