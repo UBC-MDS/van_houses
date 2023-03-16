@@ -155,7 +155,7 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1 / 2,
-          height = 600,
+          height = 350,
           fill = TRUE,
           card(
             full_screen = TRUE,
@@ -173,6 +173,13 @@ ui <- fluidPage(
             ),
             card_body_fill(plotOutput(outputId = "histogram_land_value"))
           ),
+        ),
+      ),
+      fluidRow(
+        layout_column_wrap(
+          width = 1,
+          height = 300,
+          fill = TRUE,
           card(
             full_screen = TRUE,
             card_header(
