@@ -103,32 +103,28 @@ ui <- fluidPage(
           width = 1 / 4,
           card(
             div(
-              style = "height:100px;",
-              "Stat 1: Number of Houses",
+              "Number of Houses",
               textOutput(outputId = "num_houses")
             )
           ),
           # average house price
           card(
             div(
-              style = "height:100px;",
-              "Stat 2: Average House Price",
+              "Average House Price",
               textOutput(outputId = "avg_price")
             )
           ),
           # average year built
           card(
             div(
-              style = "height:100px;",
-              "Stat 3: Average Year of House Built",
+              "Average Year of House Built",
               textOutput(outputId = "avg_year_built")
             )
           ),
           # average year house improved
           card(
             div(
-              style = "height:100px;",
-              "Stat 4: Average Year of House Improvement",
+              "Average Year of House Improvement",
               textOutput(outputId = "avg_year_improve")
             )
           ),
@@ -137,21 +133,32 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1 / 2,
+          height = 600,
+          fill = TRUE, 
           card(full_screen = TRUE, leaflet::leafletOutput(outputId = "vancouver_map")),
-          card(full_screen = TRUE, plotOutput(outputId = "histogram_land_value"))
+          card(full_screen = TRUE, plotOutput(outputId = "histogram_land_value")),
+          card(
+            full_screen = TRUE,
+            # adding a download button for downloading csv file
+            downloadButton(
+              outputId = "download_van_houses",
+              label = "Download Full Data"
+            ),
+            DT::dataTableOutput(outputId = "table1"),
+          )
         )
       ),
-      fluidRow(
-        card(
-          full_screen = TRUE,
-          # adding a download button for downloading csv file
-          downloadButton(
-            outputId = "download_van_houses",
-            label = "Download Full Data"
-          ),
-          DT::dataTableOutput(outputId = "table1"),
-        )
-      ),
+      # fluidRow(
+      #   card(
+      #     full_screen = TRUE,
+      #     # adding a download button for downloading csv file
+      #     downloadButton(
+      #       outputId = "download_van_houses",
+      #       label = "Download Full Data"
+      #     ),
+      #     DT::dataTableOutput(outputId = "table1"),
+      #   )
+      # ),
     ),
   ),
   footer = tags$div(
