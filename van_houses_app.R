@@ -21,13 +21,14 @@ ui <- fluidPage(
   navbarPage(
     theme = bslib::bs_theme(bootswatch = "darkly"),
     # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
-    titlePanel(
+    title = titlePanel(
       div(
         style = "display: flex; align-items: center; height: 30px;",
         tags$img(src = "logo.png", height = 50, width = 50),
         textOutput(outputId = "title"), style = "font-size: 30px"
       )
     ),
+    windowTitle = "Vancouver Housing App",
     sidebarLayout(
       sidebarPanel(
         width = 3,
@@ -152,7 +153,17 @@ ui <- fluidPage(
             DT::dataTableOutput(outputId = "table1"),
           )
         ),
-      )
+      ),
+    ),
+    footer = tags$div(
+      class = "footer",
+      p(
+        hr(),
+        column(4, p()),
+        column(4, p()),
+        column(4, p()),
+      ),
+      p("2023 © H. Wang, K. Wang, M. Zhao, Z. Chen")
     )
   )
 )
@@ -246,6 +257,7 @@ server <- function(input, output, session) {
       xlab = "House Price ($)",
       ylab = "Number of Houses",
       main = "House Price Distribution",
+      breaks = seq(0, 5000000, by = 500000),
     )
   })
 
