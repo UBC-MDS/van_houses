@@ -5,10 +5,10 @@ account: n43xxg-hanchen-wang
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8475325
-bundleId: 6967497
+bundleId: 6967562
 url: https://hcwang24.shinyapps.io/van_houses/
-when: 1678989149.59783
-lastSyncTime: 1678989149.59785
+when: 1678990004.43356
+lastSyncTime: 1678990004.43358
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: analysis.Rmd|CODE_OF_CONDUCT.md|CONTRIBUTING.md|CONTRIBUTORS.md|docs/images/app_sketch.jpg|LICENSE|README.md|reflection-milestone2.md|reports/proposal.md
