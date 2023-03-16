@@ -18,7 +18,7 @@ load(file = "data-raw/house_data.rda")
 
 # Creating ui
 ui <- fluidPage(
-  theme = bslib::bs_theme(bootswatch = "darkly"),
+  theme = bslib::bs_theme(bootswatch = "superhero"),
   # Possible themes: “cerulean”, “cosmo”, “cyborg”, “darkly”, “flatly”, “journal”, “litera”, “lumen”, “lux”, “materia”, “minty”, “morph”, “pulse”, “quartz”, “sandstone”, “simplex”, “sketchy”, “slate”, “solar”, “spacelab”, “superhero”, “united”, “vapor”, “yeti”, “zephyr”
   titlePanel(
     div(
@@ -134,29 +134,40 @@ ui <- fluidPage(
         layout_column_wrap(
           width = 1 / 2,
           height = 600,
-          fill = TRUE, 
-          card(full_screen = TRUE, 
-               card_header(
-                 # class = "bg-dark",
-                 span(icon("map-location-dot"), "Map of Vancouver", style = 'font-size: 20px')),
-               card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
+          fill = TRUE,
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 20px")
+            ),
+            card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
           ),
-          card(full_screen = TRUE, 
-               card_header(
-                 # class = "bg-dark",
-                 span(icon("chart-simple"), "Distribution of House Values", style = 'font-size: 20px')),
-               card_body_fill(plotOutput(outputId = "histogram_land_value"))
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 20px")
+            ),
+            card_body_fill(plotOutput(outputId = "histogram_land_value"))
           ),
-          card(full_screen = TRUE, 
-               card_header(
-                 # class = "bg-dark",
-                 span(icon("table-list"), "Detailed data", style = 'font-size: 20px')),
-               card_body_fill(# adding a download button for downloading csv file
-                 downloadButton(
-                   outputId = "download_van_houses",
-                   label = "Download Full Data"
-                 ),
-                 DT::dataTableOutput(outputId = "table1"))
+          card(
+            full_screen = TRUE,
+            card_header(
+              # class = "bg-dark",
+              span(icon("table-list"), " Detailed data",
+                downloadButton(
+                  outputId = "download_van_houses",
+                  label = "Download Selected Data"
+                ),
+                style = "font-size: 20px",
+                class = "rightAlign"
+              )
+            ),
+            tags$style(".card-header span { display: flex; justify-content: space-between; align-items: center; }"),
+            card_body_fill( # adding a download button for downloading csv file
+              DT::dataTableOutput(outputId = "table1")
+            )
           ),
         )
       ),
@@ -273,7 +284,7 @@ server <- function(input, output, session) {
       col = "darkgray", border = "white",
       xlab = "House Price ($)",
       ylab = "Number of Houses",
-      main = "House Price Distribution",
+      # main = "House Price Distribution",
       breaks = seq(0, 5000000, by = 500000),
     )
   })
