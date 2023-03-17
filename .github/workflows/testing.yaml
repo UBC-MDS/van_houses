@@ -31,25 +31,25 @@ jobs:
       
 # DON'T ADD LINES 34-57. This is for my app.
 # If the action is not working without this, the system requirements for your packages instead.
-      - name: Cache APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
-        with:
-          packages: |
-            make
-            gdal-bin
-            libssl-dev
-            libcurl4-openssl-dev
-            libudunits2-dev
-            libgdal-dev
-            libgeos-dev
-            libgeos++-dev
-            libicu-dev
-            libproj-dev
-            libpng-dev
-            zlib1g-dev
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y ${{ join(needs.build.outputs.packages, ' ') }}
+      # - name: Cache APT Packages
+      #   uses: awalsh128/cache-apt-pkgs-action@v1
+      #   with:
+      #     packages: |
+      #       make
+      #       gdal-bin
+      #       libssl-dev
+      #       libcurl4-openssl-dev
+      #       libudunits2-dev
+      #       libgdal-dev
+      #       libgeos-dev
+      #       libgeos++-dev
+      #       libicu-dev
+      #       libproj-dev
+      #       libpng-dev
+      #       zlib1g-dev
+      #     run: |
+      #       sudo apt-get update
+      #       sudo apt-get install -y ${{ join(needs.build.outputs.packages, ' ') }}
             
       
       - uses: r-lib/actions/setup-r@v2
