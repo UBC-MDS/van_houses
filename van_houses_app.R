@@ -28,7 +28,7 @@ ui <- fluidPage(
     div(
       style = "display: flex; align-items: center; height: 30px;",
       tags$img(src = "logo.png", height = 50, width = 50),
-      textOutput(outputId = "title"), style = "font-size: 30px"
+      textOutput(outputId = "title"), style = "font-size: 35px"
     )
   ),
   title = "Vancouver Housing App",
@@ -89,6 +89,7 @@ ui <- fluidPage(
     ),
     # four plot outputs
     mainPanel(
+      width = 9, 
       # column(width = 4, plotlyOutput(outputId = "box_plot")),
       # Create four stats summary to give an overall view
       # number of Houses
@@ -155,13 +156,13 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1 / 2,
-          height = 350,
+          height = 330,
           fill = TRUE,
           card(
             full_screen = TRUE,
             card_header(
               # class = "bg-dark",
-              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 20px")
+              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 18px")
             ),
             card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
           ),
@@ -169,7 +170,7 @@ ui <- fluidPage(
             full_screen = TRUE,
             card_header(
               # class = "bg-dark",
-              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 20px")
+              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 18px")
             ),
             card_body_fill(plotOutput(outputId = "histogram_land_value"))
           ),
@@ -178,7 +179,7 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1,
-          height = 300,
+          height = 295,
           fill = TRUE,
           card(
             full_screen = TRUE,
@@ -189,7 +190,7 @@ ui <- fluidPage(
                   outputId = "download_van_houses",
                   label = "Download Selected Data"
                 ),
-                style = "font-size: 20px",
+                style = "font-size: 18px",
                 class = "rightAlign"
               )
             ),
