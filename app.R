@@ -308,12 +308,12 @@ server <- function(input, output, session) {
   output$histogram_land_value <- renderPlot({
     plot1 <- filtered_data()
 
-    hist(plot1$current_land_value,
+    hist(plot1$current_land_value / 1000,
       col = "darkgray", border = "white",
-      xlab = "House Price ($)",
+      xlab = "House Price (per $1000)",
       ylab = "Number of Houses",
       main = NULL,
-      breaks = seq(0, 5000000, by = 500000),
+      breaks = seq(0, 5000, by = 250),
     )
   })
 
