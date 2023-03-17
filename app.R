@@ -59,8 +59,8 @@ ui <- fluidPage(
         inputId = "yearslider",
         label = "Year built",
         min = 1975,
-        max = 2022,
-        value = range(1975, 2022),
+        max = 2016,
+        value = range(1975, 2016),
         step = 1,
         sep = ""
       ),
