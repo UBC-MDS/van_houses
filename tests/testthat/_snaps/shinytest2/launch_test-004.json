@@ -1,0 +1,39 @@
+{
+  "output": {
+    "histogram_land_value": {
+      "src": "[image data hash: 0ea1684565b08fa699977bd06f2cbe65]",
+      "width": 335.6640625,
+      "height": 262,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "domain": {
+              "left": -200000,
+              "right": 5200000,
+              "bottom": -158.8,
+              "top": 4128.8
+            },
+            "range": {
+              "left": 59.1570335820895,
+              "right": 305.364118470149,
+              "bottom": 187.56,
+              "top": 58.04
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "mapping": {
+
+            }
+          }
+        ],
+        "dims": {
+          "width": 335.6640625,
+          "height": 262
+        }
+      }
+    }
+  }
+}
