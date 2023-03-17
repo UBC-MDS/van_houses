@@ -1,0 +1,51 @@
+Modification: Fixing the histogram by adding break. So no error message is prompted when no data is selected.   
+Source: Peer review milestone 3, ctang77 comment #1 (https://github.ubc.ca/fdandrea/532-peer-review/issues/12#issuecomment-23011). 
+Team member: HanChen Wang
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/59f9aafb33d42b92591710e71bc3839468fc526a
+
+Modification: Changing checkboxes to selections so the left bar is not too long.  
+Source: Peer review milestone 3, ctang77 comment #3 (https://github.ubc.ca/fdandrea/532-peer-review/issues/12#issuecomment-23011). 
+Team member: Morris Zhao
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/88e818fac09958cf6c1da38543cbfe2cc9b9a7bf
+
+Modification: Making histogram x-axis labels more readable (changing to per $1000).  
+Source: Peer review milestone 3 (https://github.ubc.ca/fdandrea/532-peer-review/issues/12#issuecomment-23015)
+Team member: ZiYi Chen
+Commit/s: 
+
+Modification: Adding details to documentation, proposal, and adding citations.  
+Source: Peer review milestone 3, Milestone 1 feedback (https://github.ubc.ca/fdandrea/532-peer-review/issues/12#issuecomment-23069, https://github.com/UBC-MDS/van_houses/issues/21)
+Team member: ZiYi Chen
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/90fe6e01a68aec2c9e63d2da0db53e3693cf7a91
+https://github.com/UBC-MDS/van_houses/commit/afd93c4ebd226f95290c16c604d1df5b789e70d1
+
+Modification: Rearranging the app layout so everything shows up in one window.  
+Source: Milestone 2 Feedback by TA Negar (https://github.com/UBC-MDS/van_houses/issues/75#issue-1624431481, https://github.ubc.ca/fdandrea/532-peer-review/issues/12#issuecomment-23015)
+Team member: HanChen Wang
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/f652d72a014fcc0308cd81464e69ab58a9d84aa6
+https://github.com/UBC-MDS/van_houses/commit/94790be8295f0a8628031aa04a1d9588d05d8c67
+
+Modification: Moving Statistics boxes to the right panel and beautifying it
+Source: In-class comment by Florencia and TA comment (https://github.com/UBC-MDS/van_houses/issues/75)
+Team member: HanChen Wang and Morris Zhao
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/da56d94c45b922c00cd84822426d9295fda3bbb9
+https://github.com/UBC-MDS/van_houses/commit/2904310eeff77f407e9a6bb53ec6c5f8931ce16b
+https://github.com/UBC-MDS/van_houses/commit/6f4e50ff14594218cdc6b47c550702c0dda9c76d
+https://github.com/UBC-MDS/van_houses/commit/792b63034b34536b835adc11d2def6832ab9e199
+
+Modification: Adding theme selection (darkmode/lightmode)
+Source: Milestone 2 Feedback by TA Negar (https://github.com/UBC-MDS/van_houses/issues/75#issue-1624431481)
+Team member: HanChen Wang
+Commit/s: https://github.com/UBC-MDS/van_houses/commit/8d8bd6da21b08725e150d33d9ffdd009f3600df0
+https://github.com/UBC-MDS/van_houses/commit/a387230910f587ce610f94433590d4018e67e0ba
+
+
+Modification: Readability of the font sizes.  
+Source: Milestone 2 Feedback by TA Negar (https://github.com/UBC-MDS/van_houses/issues/75#issue-1624431481)
+Team member: Ken Wang
+Commit/s: 
+
+Modification: Adding a Dockerfile.  
+Source: Milestone 4 suggested improvement (https://pages.github.ubc.ca/MDS-2022-23/DSCI_532_viz-2_students/materials/assignments/milestone4.html)
+Team member: Ken Wang
+Commit/s: 
