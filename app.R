@@ -98,7 +98,7 @@ ui <- fluidPage(
           card(
             div(
               span(
-                style = "font-size: 30px;",
+                style = "font-size: 28px;",
                 textOutput(outputId = "num_houses")
               ),
               span(
@@ -112,7 +112,7 @@ ui <- fluidPage(
           card(
             div(
               span(
-                style = "font-size: 30px;",
+                style = "font-size: 28px;",
                 textOutput(outputId = "avg_price")
               ),
               span(
@@ -126,7 +126,7 @@ ui <- fluidPage(
           card(
             div(
               span(
-                style = "font-size: 30px;",
+                style = "font-size: 28px;",
                 textOutput(outputId = "avg_year_built")
               ),
               span(
@@ -140,7 +140,7 @@ ui <- fluidPage(
           card(
             div(
               span(
-                style = "font-size: 30px;",
+                style = "font-size: 28px;",
                 textOutput(outputId = "avg_year_improve")
               ),
               span(
@@ -155,13 +155,13 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1 / 2,
-          height = 350,
+          height = 340,
           fill = TRUE,
           card(
             full_screen = TRUE,
             card_header(
               # class = "bg-dark",
-              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 20px")
+              span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 18px")
             ),
             card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
           ),
@@ -169,7 +169,7 @@ ui <- fluidPage(
             full_screen = TRUE,
             card_header(
               # class = "bg-dark",
-              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 20px")
+              span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 18px")
             ),
             card_body_fill(plotOutput(outputId = "histogram_land_value"))
           ),
@@ -178,7 +178,7 @@ ui <- fluidPage(
       fluidRow(
         layout_column_wrap(
           width = 1,
-          height = 300,
+          height = 290,
           fill = TRUE,
           card(
             full_screen = TRUE,
@@ -189,7 +189,7 @@ ui <- fluidPage(
                   outputId = "download_van_houses",
                   label = "Download Selected Data"
                 ),
-                style = "font-size: 20px",
+                style = "font-size: 18px",
                 class = "rightAlign"
               )
             ),
@@ -308,12 +308,12 @@ server <- function(input, output, session) {
   output$histogram_land_value <- renderPlot({
     plot1 <- filtered_data()
 
-    hist(plot1$current_land_value,
+    hist(plot1$current_land_value / 1000,
       col = "darkgray", border = "white",
-      xlab = "House Price ($)",
+      xlab = "House Price (per $1000)",
       ylab = "Number of Houses",
       main = NULL,
-      breaks = seq(0, 5000000, by = 500000),
+      breaks = seq(0, 5000, by = 250),
     )
   })
 
