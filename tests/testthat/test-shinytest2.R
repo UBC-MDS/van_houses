@@ -1,14 +1,14 @@
 library(shinytest2)
 
 test_that("{shinytest2} recording: launch_test", {
-  app <- AppDriver$new(name = "launch_test", height = 736, width = 1169)
+  app <- AppDriver$new(name = "launch_test", height = 736, width = 1169, load_timeout = 2e+05)
   app$set_inputs(DataTables_Table_0_length = "10")
   app$expect_values(output = "avg_price")
 })
 
 
 test_that("{shinytest2} recording: slider_button_test", {
-  app <- AppDriver$new(name = "slider_button_test", height = 736, width = 1169)
+  app <- AppDriver$new(name = "slider_button_test", height = 736, width = 1169, load_timeout = 2e+05)
   app$set_inputs(DataTables_Table_0_length = "10")
   app$set_inputs(reportyear = "2020")
   app$set_inputs(priceslider = c(3e+05, 3760000))
@@ -19,7 +19,7 @@ test_that("{shinytest2} recording: slider_button_test", {
 
 
 test_that("{shinytest2} recording: testing_selection_box", {
-  app <- AppDriver$new(name = "testing_selection_box", height = 736, width = 1169)
+  app <- AppDriver$new(name = "testing_selection_box", height = 736, width = 1169, load_timeout = 2e+05)
   app$set_inputs(DataTables_Table_0_length = "10")
   app$set_inputs(select_all_zoning = TRUE)
   app$set_inputs(community = c("Shaughnessy", "Kerrisdale", "Downtown", "Marpole"))
@@ -30,7 +30,7 @@ test_that("{shinytest2} recording: testing_selection_box", {
 
 test_that("{shinytest2} recording: dark_mode_test", {
   app <- AppDriver$new(variant = platform_variant(), name = "dark_mode_test", height = 736, 
-      width = 1169)
+      width = 1169, load_timeout = 2e+05)
   app$set_inputs(DataTables_Table_0_length = "10")
   app$set_inputs(toggle_theme = TRUE)
   app$set_inputs(DataTables_Table_2_length = "10")
