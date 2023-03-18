@@ -17,7 +17,7 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
-light_theme <- bslib::bs_theme(bootswatch = "spacelab")
+light_theme <- bslib::bs_theme(bootswatch = "journal")
 
 dark_theme <- bslib::bs_theme(bootswatch = "darkly")
 
@@ -251,7 +251,7 @@ server <- function(input, output, session) {
 
   # filtered data set
   filtered_data <- reactive({
-    house_data |>
+    first_filter <- house_data |>
       dplyr::filter(
         current_land_value >= input$priceslider[1],
         current_land_value <= input$priceslider[2],
@@ -261,7 +261,21 @@ server <- function(input, output, session) {
         zoning_classification %in% input$zoning,
         `Geo Local Area` %in% input$community
       )
+    # Show text to the user if the filtering returns a 0 row dataset
+    validate(
+      missing_values(first_filter)
+    )
+    
+    first_filter
   })
+  
+  missing_values <- function(input_data) {
+    if ( nrow(input_data) == 0 ) {
+      "No matched houses!"
+    } else {
+      NULL
+    }
+  }
 
   # Page title
   output$title <- renderText(
