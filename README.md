@@ -2,7 +2,7 @@
 
 # Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
 
--   Authors: Morris Zhao, Hanchen Wang, Ziyi Chen, Ken Wang
+-   Authors: Morris Zhao, HanChen Wang, Ziyi Chen, Ken Wang
 
 ## Usage
 
@@ -16,7 +16,7 @@
 
 Thank you for being interested in our Vancouver Housing Market App!
 
-Our app is designed to provide an interactive and informative way to explore the Vancouver housing market. Whether you're a real estate professional, a data analyst, or simply curious about housing trends in Vancouver, our app has something for you.
+Our app is designed to provide an interactive and informative way to explore the Vancouver housing market. Whether you're a real estate professional, a data analyst, or simply curious about the housing price trends in Vancouver, our app has something for you.
 
 We hope you find our app useful and informative. Happy exploring!
 
@@ -39,20 +39,22 @@ The development of this app for Vancouver's housing market was a collaborative e
 ### Meet the team
 
 -   Morris Zhao
--   Hanchen Wang
+-   HanChen Wang
 -   Ziyi Chen
 -   Ken Wang
 
 ## Description
 
+-   **Statistics Boxes**: Four key statistics for your chosen population of houses. These include the number of houses meeting your criteria, their average price, year of construction, and year of major improvements.
 -   **Map**: An interactive map that allows user to choose a certain area. Based on the area selection all other components will update in real time.
 -   **Histogram**: Property price distribution. The range of price shown here is subject to the `Price` slide bar on the left. Price range and percentage show up when you hover over any bucket in the histogram. Optionally you can also change price range by drag-selecting areas within the current plot.
--   **Bar Chart**: You can either type in or use check boxes to select up to 5 area codes. Then the bar chart will show average property price for each region of interest.
 -   **Data Table**: In addition to above visualizations, we also plan to include a `Data Source` component, where users can query and download the raw data as csv a file.
 
-Ideally all the interactive features in these 4 visualizations are linked together. When you make a selection on one chart, all the other 3 will update accordingly as well.
+Ideally all the interactive features in these 3 visualizations are linked together. When you make a selection on the left sidebar, all visualizaitons will update accordingly as well.
 
-On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="img/new gif.gif" width="1000" height="500"/>
+On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 3 visualizations on the right.
+
+<img src="img/new gif.gif" width="1000" height="500"/>
 
 ## Contributing
 
@@ -66,6 +68,10 @@ If you have any questions, feedback, or suggestions about our Vancouver Housing 
 
 Alternatively, you can contact us via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). We welcome any inquiries about the project or our team and are happy to answer any questions you may have.
 
-## License
+## Data Source {#data-source}
+
+The data on housing prices are retrieved from the [City of Vancouver Open Data Portal](https://opendata.vancouver.ca/explore/dataset/property-tax-report/table/?sort=-tax_assessment_year).
+
+## License {#license}
 
 Licensed under the terms of the MIT license.

@@ -18,7 +18,7 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
-light_theme <- bslib::bs_theme(bootswatch = "spacelab")
+light_theme <- bslib::bs_theme(bootswatch = "journal")
 
 dark_theme <- bslib::bs_theme(bootswatch = "darkly")
 
@@ -158,13 +158,14 @@ ui <- fluidPage(
           width = 1 / 2,
           height = 340,
           fill = TRUE,
+          heights_equal = "all",
           card(
             full_screen = TRUE,
             card_header(
               # class = "bg-dark",
               span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 18px")
             ),
-            card_body_fill(shinycssloaders::withSpinner(leaflet::leafletOutput(outputId = "vancouver_map")))
+            card_body_fill(shinycssloaders::withSpinner(leaflet::leafletOutput(outputId = "vancouver_map", height = 280)), class = "my-card-image")
           ),
           card(
             full_screen = TRUE,
@@ -172,7 +173,7 @@ ui <- fluidPage(
               # class = "bg-dark",
               span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 18px")
             ),
-            card_body_fill(shinycssloaders::withSpinner(plotOutput(outputId = "histogram_land_value")))
+            card_body_fill(shinycssloaders::withSpinner(plotOutput(outputId = "histogram_land_value", height = 280)), class = "my-card-image")
           ),
         ),
       ),
@@ -268,10 +269,10 @@ server <- function(input, output, session) {
     validate(
       missing_values(first_filter)
     )
-    
+
     first_filter
   })
-  
+
   missing_values <- function(input_data) {
     if ( nrow(input_data) == 0 ) {
       "No matched houses!"
@@ -291,7 +292,7 @@ server <- function(input, output, session) {
   )
 
   output$avg_price <- renderText(
-    paste0("$", round(mean(na.omit(filtered_data()$current_land_value)), 2))
+    paste0("$", format(round(mean(na.omit(filtered_data()$current_land_value)), 0), big.mark=","))
   )
 
   output$avg_year_built <- renderText(
@@ -323,30 +324,14 @@ server <- function(input, output, session) {
 
   # plot2: histogram of housing price
   output$histogram_land_value <- renderPlot({
-    plot1 <- filtered_data()
-
-    hist(plot1$current_land_value / 1000,
+    hist(filtered_data()$current_land_value / 1000,
       col = "darkgray", border = "white",
       xlab = "House Price (per $1000)",
       ylab = "Number of Houses",
       main = NULL,
       breaks = seq(0, 5000, by = 250),
     )
-  })
-
-  # plot3: boxplot of land legal type
-  output$box_plot <- renderPlotly({
-    plot_ly(filtered_data(),
-      x = ~current_land_value,
-      y = ~legal_type,
-      type = "box",
-      orientation = "h"
-    ) |>
-      layout(
-        xaxis = list(title = "House Price ($)"),
-        yaxis = list(title = "Legal Type"),
-        title = "Price per Legal Type"
-      )
+    par(mar = c(5, 4, 4, 2) + 0.1)
   })
 
   # table 1: Selected housing data preview

@@ -5,10 +5,10 @@ account: n43xxg-hanchen-wang
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8475325
-bundleId: 6970034
+bundleId: 6974605
 url: https://hcwang24.shinyapps.io/van_houses/
-when: 1679037469.25208
-lastSyncTime: 1679037469.25211
+when: 1679120239.94838
+lastSyncTime: 1679120239.9484
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .github/workflows/deploy-app.yaml|.github/workflows/testing.yaml|analysis.Rmd|CODE_OF_CONDUCT.md|CONTRIBUTING.md|CONTRIBUTORS.md|docs/.DS_Store|docs/images/app_sketch.jpg|docs/images/vanhouses.gif|docs/reflection-milestone2.md|house_data.csv|img/logo.png|img/vanhouses.gif|LICENSE|README.html|README.md|reflection-milestone2.md|reports/proposal.md
+ignoredFiles: .github/workflows/deploy-app.yaml|.github/workflows/testing.yaml|.Rprofile|analysis.Rmd|CODE_OF_CONDUCT.md|CONTRIBUTING.md|CONTRIBUTORS.md|docs/.DS_Store|docs/images/app_sketch.jpg|docs/images/vanhouses.gif|docs/reflection-milestone2.md|docs/reflection-milestone4.md|house_data.csv|img/logo.png|img/new gif.gif|img/vanhouses.gif|LICENSE|README.html|README.md|reflection-milestone2.md|reports/proposal.md|tests
