@@ -1,4 +1,4 @@
-[![shiny-deploy](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml)
+[![shiny-deploy](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/deploy-app.yaml) [![Test app w/ {renv}](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml/badge.svg)](https://github.com/UBC-MDS/van_houses/actions/workflows/testing.yaml)
 
 # Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
 
