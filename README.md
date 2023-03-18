@@ -68,10 +68,10 @@ If you have any questions, feedback, or suggestions about our Vancouver Housing 
 
 Alternatively, you can contact us via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). We welcome any inquiries about the project or our team and are happy to answer any questions you may have.
 
-## Data Source {#data-source}
+## Data Source
 
 The data on housing prices are retrieved from the [City of Vancouver Open Data Portal](https://opendata.vancouver.ca/explore/dataset/property-tax-report/table/?sort=-tax_assessment_year).
 
-## License {#license}
+## License
 
 Licensed under the terms of the MIT license.
