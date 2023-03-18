@@ -4,7 +4,9 @@
 
 -   Authors: Morris Zhao, Hanchen Wang, Ziyi Chen, Ken Wang
 
-You can open our app via this [link](https://hcwang24.shinyapps.io/van_houses/) \## Welcome
+You can open our app via this [link](https://hcwang24.shinyapps.io/van_houses/)
+
+## Welcome
 
 Thank you for being interested in our Vancouver Housing Market App!
 
@@ -19,17 +21,25 @@ You may find information about the app in this README file. To learn more about 
 -   [Interested in contributing?](#contributing)
 -   [Keep in touch](#contact-us)
 
-We hope you find our app useful and informative. Happy exploring! \## Motivation and purpose The housing market in Vancouver has been one of the most active and competitive in North America in recent years, with prices fluctuating dramatically and demand consistently outstripping supply. As a result, real estate professionals, home buyers, sellers, researchers, policymakers, etc. all need access to up-to-date information on housing prices and trends.
+We hope you find our app useful and informative. Happy exploring!
+
+## Motivation and purpose {#motivation-and-purpose}
+
+The housing market in Vancouver has been one of the most active and competitive in North America in recent years, with prices fluctuating dramatically and demand consistently outstripping supply. As a result, real estate professionals, home buyers, sellers, researchers, policymakers, etc. all need access to up-to-date information on housing prices and trends.
 
 The purpose of our app is to provide a user-friendly, interactive, and informative tool for monitoring Vancouver's housing market. The app aggregates data on housing prices from the City of Vancouver Open Data Portal and presents it in an engaging format, allowing users to gain insights into trends and patterns over time.
 
 The motivation for developing this app was to create a comprehensive and informative app that can serve as a valuable resource for anyone interested in understanding Vancouver's housing market. The app is designed to be user-friendly and interactive, with a range of visualizations that help users make sense of the presented information. Ultimately, the goal is to help users stay informed about the state of the market and make better-informed decisions.
 
-More details can be found [here](reports/proposal.md). \## Who are we
+More details can be found [here](reports/proposal.md).
+
+## Who are we {#who-are-we}
 
 We are a team of data scientists at [UBC MDS](https://masterdatascience.ubc.ca) who are passionate about coming up with original, useful solutions to challenges. Our team is ideally suited to take on challenging tasks in the field of data analysis because of the wide range of expertise in data science, programming, and statistics that we have.
 
-The development of this app for Vancouver's housing market was a collaborative effort that brought together our team's expertise in data collection, analysis, and visualization. \### Meet the team
+The development of this app for Vancouver's housing market was a collaborative effort that brought together our team's expertise in data collection, analysis, and visualization.
+
+### Meet the team
 
 -   Morris Zhao
 -   Hanchen Wang
@@ -45,7 +55,9 @@ The development of this app for Vancouver's housing market was a collaborative e
 
 Ideally all the interactive features in these 4 visualizations are linked together. When you make a selection on one chart, all the other 3 will update accordingly as well.
 
-On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="docs/images/vanhouses.gif" width="1000" height="500"/> \## Installation
+On the left hand side there are drop down menus, check boxes and slide bars to let you select data points under certain criteria. Currently our design is to let you filter by `community`, `property type`, `price` and `year built`. These filters will apply to all the 4 visualizations on the right. <br> <br> <img src="img/new gif.gif" width="1000" height="500"/>
+
+## Installation {#installation}
 
 To install `van_houses` locally, you must have R and RStudio installed on your computer. Once you have these tools, you may install and run the app by following these instructions:
 
@@ -64,7 +76,9 @@ install.packages(c("shiny", "bslib", "thematic", "plotly", "tidyverse", "leaflet
 RScript van_houses_app.R
 ```
 
-Your web browser should now open the app in a new window or tab. You may interact with the app and explore information about the housing market in Vancouver. \## Contributing
+Your web browser should now open the app in a new window or tab. You may interact with the app and explore information about the housing market in Vancouver.
+
+## Contributing {#contributing}
 
 We welcome anyone who is interested in contributing to our app for Vancouver's housing market. Our project is open-source, which means that anyone can view and contribute to the code on our GitHub repository.
 
@@ -74,6 +88,8 @@ If you are interested in getting involved, check out the [contributing guideline
 
 If you have any questions, feedback, or suggestions about our Vancouver Housing Market app, we would love to hear from you! You can contact our team by visiting our GitHub repository and creating a new issue. This is the best way to reach us if you have technical questions or issues with the app.
 
-Alternatively, you can contact us via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). We welcome any inquiries about the project or our team and are happy to answer any questions you may have. \## License
+Alternatively, you can contact us via email by sending a message to the address listed [here](https://github.com/UBC-MDS/van_houses/blob/main/CONTRIBUTING.md). We welcome any inquiries about the project or our team and are happy to answer any questions you may have.
+
+## License
 
 Licensed under the terms of the MIT license.

@@ -5,6 +5,7 @@ library(plotly)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
+library(shinycssloaders)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -163,7 +164,7 @@ ui <- fluidPage(
               # class = "bg-dark",
               span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 18px")
             ),
-            card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
+            card_body_fill(shinycssloaders::withSpinner(leaflet::leafletOutput(outputId = "vancouver_map")))
           ),
           card(
             full_screen = TRUE,
@@ -171,7 +172,7 @@ ui <- fluidPage(
               # class = "bg-dark",
               span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 18px")
             ),
-            card_body_fill(plotOutput(outputId = "histogram_land_value"))
+            card_body_fill(shinycssloaders::withSpinner(plotOutput(outputId = "histogram_land_value")))
           ),
         ),
       ),
@@ -195,7 +196,9 @@ ui <- fluidPage(
             ),
             tags$style(".card-header span { display: flex; justify-content: space-between; align-items: center; }"),
             card_body_fill( # adding a download button for downloading csv file
-              DT::dataTableOutput(outputId = "table1")
+              shinycssloaders::withSpinner(
+                DT::dataTableOutput(outputId = "table1")
+              )
             )
           ),
         )
@@ -251,7 +254,7 @@ server <- function(input, output, session) {
 
   # filtered data set
   filtered_data <- reactive({
-    house_data |>
+    first_filter <- house_data |>
       dplyr::filter(
         current_land_value >= input$priceslider[1],
         current_land_value <= input$priceslider[2],
@@ -261,7 +264,21 @@ server <- function(input, output, session) {
         zoning_classification %in% input$zoning,
         `Geo Local Area` %in% input$community
       )
+    # Show text to the user if the filtering returns a 0 row dataset
+    validate(
+      missing_values(first_filter)
+    )
+    
+    first_filter
   })
+  
+  missing_values <- function(input_data) {
+    if ( nrow(input_data) == 0 ) {
+      "No matched houses!"
+    } else {
+      NULL
+    }
+  }
 
   # Page title
   output$title <- renderText(

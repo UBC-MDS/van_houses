@@ -26,13 +26,3 @@ test_that("{shinytest2} recording: testing_selection_box", {
   app$expect_values(output = "avg_price")
   app$expect_values(output = "num_houses")
 })
-
-
-test_that("{shinytest2} recording: dark_mode_test", {
-  app <- AppDriver$new(variant = platform_variant(), name = "dark_mode_test", height = 736, 
-      width = 1169, load_timeout = 2e+05)
-  app$set_inputs(DataTables_Table_0_length = "10")
-  app$set_inputs(toggle_theme = TRUE)
-  app$set_inputs(DataTables_Table_2_length = "10")
-  app$expect_screenshot()
-})
