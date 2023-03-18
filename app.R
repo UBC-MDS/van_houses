@@ -5,6 +5,7 @@ library(plotly)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
+library(shinycssloaders)
 
 # Optimizing workflow
 options(shiny.autoreload = TRUE)
@@ -17,7 +18,7 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
-light_theme <- bslib::bs_theme(bootswatch = "journal")
+light_theme <- bslib::bs_theme(bootswatch = "spacelab")
 
 dark_theme <- bslib::bs_theme(bootswatch = "darkly")
 
@@ -163,7 +164,7 @@ ui <- fluidPage(
               # class = "bg-dark",
               span(icon("map-location-dot"), " Map of Vancouver", style = "font-size: 18px")
             ),
-            card_body_fill(leaflet::leafletOutput(outputId = "vancouver_map"))
+            card_body_fill(shinycssloaders::withSpinner(leaflet::leafletOutput(outputId = "vancouver_map")))
           ),
           card(
             full_screen = TRUE,
@@ -171,7 +172,7 @@ ui <- fluidPage(
               # class = "bg-dark",
               span(icon("chart-simple"), " Distribution of House Values", style = "font-size: 18px")
             ),
-            card_body_fill(plotOutput(outputId = "histogram_land_value"))
+            card_body_fill(shinycssloaders::withSpinner(plotOutput(outputId = "histogram_land_value")))
           ),
         ),
       ),
@@ -195,7 +196,9 @@ ui <- fluidPage(
             ),
             tags$style(".card-header span { display: flex; justify-content: space-between; align-items: center; }"),
             card_body_fill( # adding a download button for downloading csv file
-              DT::dataTableOutput(outputId = "table1")
+              shinycssloaders::withSpinner(
+                DT::dataTableOutput(outputId = "table1")
+              )
             )
           ),
         )
