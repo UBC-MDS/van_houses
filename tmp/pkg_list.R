@@ -5,3 +5,6 @@ library(plotly)
 library(tidyverse)
 library(leaflet)
 library(shinyWidgets)
+library(shinytest2)
+
+print("Everything is good!")
