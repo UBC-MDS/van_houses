@@ -1,4 +1,5 @@
-r-base r-base-dev r-cran-shiny r-cran-plotly r-cran-tidyverse r-cran-leaflet r-cran-shinywidgets r-cran-dt
+r-base r-base-dev r-cran-shiny r-cran-plotly r-cran-tidyverse r-cran-leaflet r-cran-shinywidgets r-cran-dt r-cran-shinytest
 
 install.packages("thematic")
 install.packages("bslib")
+install.packages("shinytest2")
