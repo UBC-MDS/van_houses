@@ -18,7 +18,7 @@ options(shiny.autoreload = TRUE)
 # Load previously annotated data from Vancouver Open Portal
 load(file = "data-raw/house_data.rda")
 
-light_theme <- bslib::bs_theme(bootswatch = "spacelab")
+light_theme <- bslib::bs_theme(bootswatch = "journal")
 
 dark_theme <- bslib::bs_theme(bootswatch = "darkly")
 
