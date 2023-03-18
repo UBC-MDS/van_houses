@@ -268,10 +268,10 @@ server <- function(input, output, session) {
     validate(
       missing_values(first_filter)
     )
-    
+
     first_filter
   })
-  
+
   missing_values <- function(input_data) {
     if ( nrow(input_data) == 0 ) {
       "No matched houses!"
@@ -291,7 +291,7 @@ server <- function(input, output, session) {
   )
 
   output$avg_price <- renderText(
-    paste0("$", round(mean(na.omit(filtered_data()$current_land_value)), 2))
+    paste0("$", format(round(mean(na.omit(filtered_data()$current_land_value)), 0), big.mark=","))
   )
 
   output$avg_year_built <- renderText(
