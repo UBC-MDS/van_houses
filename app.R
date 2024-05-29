@@ -40,8 +40,8 @@ ui <- fluidPage(
       radioButtons(
         inputId = "reportyear",
         label = "Select Report Year",
-        selected = "2023",
-        choices = sort(unique(house_data$report_year))
+        selected = "2024",
+        choices = sort(unique(house_data$report_year), decreasing = TRUE)
       ),
 
       # Create slider for house price
