@@ -2,15 +2,19 @@
 
 # Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
 
--   Authors: Morris Zhao, HanChen Wang, Ziyi Chen, Ken Wang
+##### Updates 06/12/2024 (HanChen Wang)
+
+-   Updated with the most recent house value data (June 2024).
+-   Minor bug fixes.
+
+##### Original Authors: HanChen Wang, Morris Zhao, Ziyi Chen, Ken Wang
 
 ## Usage
 
-- Our app is deployed on shinyapps.io [here](https://hcwang24.shinyapps.io/van_houses/).
-- Alternatively, you can run with docker: `docker run --rm -p 3838:3838 kenuiuc/van_house_app:v0.0.1`
-- The pre-built docker image is available on Dokcker Hub [here](https://hub.docker.com/repository/docker/kenuiuc/van_house_app).
-- If you want to build the image yourself, use the `Dockerfile` at the repo root directory.
-
+-   Our app is deployed on shinyapps.io [here](https://hcwang24.shinyapps.io/van_houses/).
+-   Alternatively, you can run with docker: `docker run --rm -p 3838:3838 kenuiuc/van_house_app:v0.0.1`
+-   The pre-built docker image is available on Dokcker Hub [here](https://hub.docker.com/repository/docker/kenuiuc/van_house_app).
+-   If you want to build the image yourself, use the `Dockerfile` at the repo root directory.
 
 ## Welcome
 

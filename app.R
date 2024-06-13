@@ -40,18 +40,19 @@ ui <- fluidPage(
       radioButtons(
         inputId = "reportyear",
         label = "Select Report Year",
-        selected = "2023",
-        choices = sort(unique(house_data$report_year))
+        selected = "2024",
+        choices = sort(unique(house_data$report_year), decreasing = TRUE)
       ),
 
       # Create slider for house price
       sliderInput(
         inputId = "priceslider",
-        label = "Price range",
-        min = 300000,
-        max = 5000000,
-        value = range(300000, 5000000),
-        step = 1000,
+        label = "Price range (5-95th percentile)",
+        min = quantile(house_data$current_land_value, probs=0.05, na.rm=TRUE),
+        max = quantile(house_data$current_land_value, probs=0.95, na.rm=TRUE),
+        value = range(quantile(house_data$current_land_value, probs=0.05, na.rm=TRUE), 
+                      quantile(house_data$current_land_value, probs=0.95, na.rm=TRUE)),
+        step = 10000,
         sep = ""
       ),
 
@@ -59,9 +60,10 @@ ui <- fluidPage(
       sliderInput(
         inputId = "yearslider",
         label = "Year built",
-        min = 1975,
-        max = 2016,
-        value = range(1975, 2016),
+        min = min(house_data$year_built, na.rm=TRUE),
+        max = max(house_data$year_built, na.rm=TRUE),
+        value = range(min(house_data$year_built, na.rm=TRUE),
+                      max(house_data$year_built, na.rm=TRUE)),
         step = 1,
         sep = ""
       ),
@@ -69,14 +71,14 @@ ui <- fluidPage(
       # select zoning
       selectInput(
         inputId = "zoning",
-        label = "Select Zoning Classification:",
+        label = "Select Zoning Classification: (more in dropdown menu)",
         choices = sort(unique(house_data$zoning_classification)),
         multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
       selectInput(
         inputId = "community",
-        label = "Select Community:",
+        label = "Select Community: (more in dropdown menu)",
         choices = sort(unique(house_data$`Geo Local Area`)),
         multiple = TRUE
       ),
@@ -249,7 +251,7 @@ server <- function(input, output, session) {
     if (input$select_all) {
       updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`))
     } else {
-      updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"), )
+      updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`), )
     }
   })
 
@@ -314,8 +316,10 @@ server <- function(input, output, session) {
         lng = ~longitude,
         popup = paste0(
           filtered_data()$full_address,
-          " $",
-          filtered_data()$current_land_value
+          ". $",
+          filtered_data()$current_land_value,
+          ". Built in ",
+          filtered_data()$year_built
         ),
         options = popupOptions(closeButton = FALSE),
         clusterOptions = markerClusterOptions()
