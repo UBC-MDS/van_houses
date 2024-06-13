@@ -47,11 +47,12 @@ ui <- fluidPage(
       # Create slider for house price
       sliderInput(
         inputId = "priceslider",
-        label = "Price range",
-        min = 300000,
-        max = 5000000,
-        value = range(300000, 5000000),
-        step = 1000,
+        label = "Price range (5-95th percentile)",
+        min = quantile(house_data$current_land_value, probs=0.05, na.rm=TRUE),
+        max = quantile(house_data$current_land_value, probs=0.95, na.rm=TRUE),
+        value = range(quantile(house_data$current_land_value, probs=0.05, na.rm=TRUE), 
+                      quantile(house_data$current_land_value, probs=0.95, na.rm=TRUE)),
+        step = 10000,
         sep = ""
       ),
 
@@ -59,9 +60,10 @@ ui <- fluidPage(
       sliderInput(
         inputId = "yearslider",
         label = "Year built",
-        min = 1975,
-        max = 2016,
-        value = range(1975, 2016),
+        min = min(house_data$year_built, na.rm=TRUE),
+        max = max(house_data$year_built, na.rm=TRUE),
+        value = range(min(house_data$year_built, na.rm=TRUE),
+                      max(house_data$year_built, na.rm=TRUE)),
         step = 1,
         sep = ""
       ),
