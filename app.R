@@ -71,14 +71,14 @@ ui <- fluidPage(
       # select zoning
       selectInput(
         inputId = "zoning",
-        label = "Select Zoning Classification:",
+        label = "Select Zoning Classification: (more in dropdown menu)",
         choices = sort(unique(house_data$zoning_classification)),
         multiple = TRUE
       ),
       checkboxInput("select_all_zoning", "Select All", value = FALSE),
       selectInput(
         inputId = "community",
-        label = "Select Community:",
+        label = "Select Community: (more in dropdown menu)",
         choices = sort(unique(house_data$`Geo Local Area`)),
         multiple = TRUE
       ),
@@ -251,7 +251,7 @@ server <- function(input, output, session) {
     if (input$select_all) {
       updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`))
     } else {
-      updateCheckboxGroupInput(session, "community", selected = c("Shaughnessy", "Kerrisdale", "Downtown"), )
+      updateCheckboxGroupInput(session, "community", selected = unique(house_data$`Geo Local Area`), )
     }
   })
 
@@ -316,8 +316,10 @@ server <- function(input, output, session) {
         lng = ~longitude,
         popup = paste0(
           filtered_data()$full_address,
-          " $",
-          filtered_data()$current_land_value
+          ". $",
+          filtered_data()$current_land_value,
+          ". Built in ",
+          filtered_data()$year_built
         ),
         options = popupOptions(closeButton = FALSE),
         clusterOptions = markerClusterOptions()
