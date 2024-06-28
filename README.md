@@ -2,7 +2,7 @@
 
 # Vancouver Housing Market Dashboard <img src="img/logo.png" align="right" height="139"/>
 
-##### Updates 06/12/2024 (HanChen Wang)
+##### Updates 06/12/2024 (by HanChen Wang)
 
 -   Updated with the most recent house value data (June 2024).
 -   Minor bug fixes.
